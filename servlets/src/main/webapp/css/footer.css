@@ -1,0 +1,23 @@
+.rm-base {
+    color: inherit;
+    /* Inherit color from parent */
+    text-decoration: none;
+    /* Remove blue things */
+}
+
+.rm-base:hover {
+    text-decoration: underline;
+    /* Add underline on hover */
+}
+
+.dark-text{
+    color: #000000;
+}
+
+.color-grey-custom{
+    background :#9f9f9f ;
+}
+
+footer{
+    background :#c4c4c4 ;
+}
