@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producto</title>
+    
+    <script src="js/manage_cart.js"></script>
 </head>
 
 <body>
@@ -53,11 +55,12 @@
                     <div class="card-footer">
 
                         <div class="input-group justify-content-center">
-                            <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
+                            <form >
+                                <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
                                 name="nbr_prod" >
-                            <button class="btn btn-primary" type="button"
-                                onclick="comprar(1, 'Producto 1', 300, 1)">Comprar</button>
-
+                                <button class="btn btn-primary" type="button"
+                                onclick="agregarProducto(1, 'Producto 1', this.form[0].value, 300);">Comprar</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -104,13 +107,12 @@
                     </div>
                     <div class="card-footer">
 
-                        <div class="input-group justify-content-center">
+                        <form >
                             <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
-                                name="nbr_prod" >
+                            name="nbr_prod" >
                             <button class="btn btn-primary" type="button"
-                                onclick="comprar(1, 'Producto 1', 300, 1)">Comprar</button>
-
-                        </div>
+                            onclick="agregarProducto(2, 'Producto 2', this.form[0].value, 300);">Comprar</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -156,13 +158,12 @@
                     </div>
                     <div class="card-footer">
 
-                        <div class="input-group justify-content-center">
-                            <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
+                        <form >
+                                <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
                                 name="nbr_prod" >
-                            <button class="btn btn-primary" type="button"
-                                onclick="comprar(1, 'Producto 1', 300, 1)">Comprar</button>
-
-                        </div>
+                                <button class="btn btn-primary" type="button"
+                                onclick="agregarProducto(1, 'Producto 1', this.form[0].value, 300);">Comprar</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -208,13 +209,12 @@
                     </div>
                     <div class="card-footer">
 
-                        <div class="input-group justify-content-center">
-                            <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
+                        <form >
+                                <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
                                 name="nbr_prod" >
-                            <button class="btn btn-primary" type="button"
-                                onclick="comprar(1, 'Producto 1', 300, 1)">Comprar</button>
-
-                        </div>
+                                <button class="btn btn-primary" type="button"
+                                onclick="agregarProducto(1, 'Producto 1', this.form[0].value, 300);">Comprar</button>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -260,13 +260,12 @@
                     </div>
                     <div class="card-footer">
 
-                        <div class="input-group justify-content-center">
-                            <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
+                        <form >
+                                <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
                                 name="nbr_prod" >
-                            <button class="btn btn-primary" type="button"
-                                onclick="comprar(1, 'Producto 1', 300, 1)">Comprar</button>
-
-                        </div>
+                                <button class="btn btn-primary" type="button"
+                                onclick="agregarProducto(1, 'Producto 1', this.form[0].value, 300);">Comprar</button>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -312,13 +311,12 @@
                     </div>
                     <div class="card-footer">
 
-                        <div class="input-group justify-content-center">
-                            <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
+                        <form >
+                                <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
                                 name="nbr_prod" >
-                            <button class="btn btn-primary" type="button"
-                                onclick="comprar(1, 'Producto 1', 300, 1)">Comprar</button>
-
-                        </div>
+                                <button class="btn btn-primary" type="button"
+                                onclick="agregarProducto(1, 'Producto 1', this.form[0].value, 300);">Comprar</button>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -364,13 +362,12 @@
                     </div>
                     <div class="card-footer">
 
-                        <div class="input-group justify-content-center">
-                            <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
+                        <form >
+                                <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
                                 name="nbr_prod" >
-                            <button class="btn btn-primary" type="button"
-                                onclick="comprar(1, 'Producto 1', 300, 1)">Comprar</button>
-
-                        </div>
+                                <button class="btn btn-primary" type="button"
+                                onclick="agregarProducto(1, 'Producto 1', this.form[0].value, 300);">Comprar</button>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -416,13 +413,12 @@
                     </div>
                     <div class="card-footer">
 
-                        <div class="input-group justify-content-center">
-                            <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
+                        <form >
+                                <input class="form-control-sm text-center" type="number" value="1" min="1" max="10"
                                 name="nbr_prod" >
-                            <button class="btn btn-primary" type="button"
-                                onclick="comprar(1, 'Producto 1', 300, 1)">Comprar</button>
-
-                        </div>
+                                <button class="btn btn-primary" type="button"
+                                onclick="agregarProducto(1, 'Producto 1', this.form[0].value, 300);">Comprar</button>
+                            </form>
                     </div>
                 </div>
             </div>
