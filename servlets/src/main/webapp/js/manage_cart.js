@@ -21,13 +21,14 @@ function guardarCarrito() {
 }
 
 
-function crearObjetoCarrito(codigo, nombre, cantidad, precio) {
+function crearObjetoCarrito(codigo, nombre, cantidad, precio, url_imagen) {
 
     return {
         codigo: codigo,
         nombre: nombre,
         cantidad: cantidad,
-        precio: precio
+        precio: precio,
+        url_imagen: url_imagen
     };
 }
 
@@ -42,9 +43,10 @@ function eliminarProducto(codigo, standalone=true) {
         guardarCarrito();
         UPDATE_DISPLAY();
     }
+
 }
 
-function agregarProducto(codigo, nombre, cantidad, precio) { //TODO change header to (codigo, cantidad)
+function agregarProducto(codigo, nombre, cantidad, precio, url_imagen) { //TODO change header to (codigo, cantidad)
     //TODO deal with DB, like get precio, nombre from DB, and check if cantidad is available
 
 
@@ -61,7 +63,7 @@ function agregarProducto(codigo, nombre, cantidad, precio) { //TODO change heade
         }
     }
     if (!found) {
-        carrito.push(crearObjetoCarrito(codigo, nombre, cantidad, precio));
+        carrito.push(crearObjetoCarrito(codigo, nombre, cantidad, precio, url_imagen));
     }
     console.log(carrito);
     guardarCarrito();
@@ -90,6 +92,7 @@ function eliminarCarrito() {
 function UPDATE_DISPLAY() {
     displayCarrito();
     resumenCarrito_UPDATE();
+    console.log("UPDATE_DISPLAY");
 }
 
 function resumenCarrito_UPDATE() {
@@ -168,9 +171,10 @@ function displayCarrito(){
 
     var carrito_display = "";
     for (var i = 0; i < carrito.length; i++) {
-        carrito_display += template_producto_en_carrito(carrito[i].codigo, carrito[i].nombre, carrito[i].cantidad, carrito[i].precio, "img/img1/1.jpg");
+        carrito_display += template_producto_en_carrito(carrito[i].codigo, carrito[i].nombre, carrito[i].cantidad, carrito[i].precio, carrito[i].url_imagen);
     }
-
+    if (carrito.length === 0) {
+        carrito_display = "<h2 class=\"text-center\" >Carrito Vacio</h2>";
+    }
     document.getElementById("body_carrito_display").innerHTML = carrito_display;
-
 }

@@ -29,7 +29,7 @@ function createHeaderAndFooter() {
                 
                     <div class="collapse navbar-collapse" id="navcol-3">
                         <ul class="navbar-nav mx-auto">
-                            <li class="nav-item"><a class="nav-link active" href="producto.html">Producto</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="producto.jsp">Producto</a></li>
                             <li class="nav-item"><a class="nav-link" href="empresa.html">Empresa</a></li>
                             <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
                             <li class="nav-item"><a class="nav-link" href="usario.html">Usuario</a></li>
@@ -46,7 +46,7 @@ function createHeaderAndFooter() {
                             </li>
                             
                             <li class="nav-item">
-                                <a  href="conexion.html">
+                                <a  href="conexion.jsp">
                                     <span class="my-2 mt-md-0">
                                     <button class="btn btn-primary">Iniciar sesión&nbsp;
                                     <i
