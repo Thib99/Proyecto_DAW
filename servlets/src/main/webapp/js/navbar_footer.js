@@ -32,7 +32,7 @@ function createHeaderAndFooter() {
                             <li class="nav-item"><a class="nav-link active" href="producto.jsp">Producto</a></li>
                             <li class="nav-item"><a class="nav-link" href="empresa.html">Empresa</a></li>
                             <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
-                            <li class="nav-item"><a class="nav-link" href="usario.html">Usuario</a></li>
+                            <li class="nav-item"><a class="nav-link" href="usuario.jsp">Usuario</a></li>
                         </ul>
 
                         <ul class="navbar-nav mx-auto">
