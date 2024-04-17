@@ -16,7 +16,7 @@
     <%
     if (session.getAttribute("usuario") == null) {
         response.sendRedirect("conexion.jsp?url="+request.getRequestURI());
-    }
+    }else {
     %>
 
 
@@ -41,61 +41,79 @@
                     </div>
                     <div class="card-body" id="content_block">
                         <section id="datos">
+                        <%
+                        AccesoBD con=AccesoBD.getInstance();
+	                    UsuarioBD usuario = con.obtenerUsuarioBD( (int)session.getAttribute("usuario")); ;
+                        %>
                         <div class="container p-4">
-                    <form action="" method="POST" id="form1">
+                        
+                        <%
+                        String mensaje2 = (String)session.getAttribute("mensaje_CambioDatos");
+
+                        if (mensaje2 != null) {
+                        %>
+                        <%-- Eliminamos el mensaje consumido --%>
+                        <%
+                            session.removeAttribute("mensaje_CambioDatos");
+                        %>
+                        <p class="text-center"> <%=mensaje2%> </p>
+                        <%
+                        }
+                        %>
+                    <form action="form/cambiardatos" method="POST" id="form1">
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label for="apellido" class="col-form-label"><b> Apellido: </b></label>
                                 <input type="text" class="form-control-plaintext px-1 mx-2" id="apellido" name="apellido" readonly
-                                    value="Garcia">
+                                    value="<%= usuario.getApellidos() %>">
                             </div>
 
                             <div class="col-md-6">
                                 <label for="nombre" class="col-form-label"> <b> Nombre: </b> </label>
                                 <input type="text" class="form-control-plaintext px-1 mx-2" id="nombre" name="nombre" readonly
-                                    value="Jose">
+                                    value="<%= usuario.getNombre() %>">
                             </div>
 
                             <div class="col-md-6">
-                                <label for="tel" class="col-form-label"> <b>Telefono: </b> </label>
-                                <input type="tel" class="form-control-plaintext px-1 mx-2" id="tel" name="tel" readonly
-                                    value="+123456789">
+                                <label for="telefono" class="col-form-label"> <b>Telefono: </b> </label>
+                                <input type="telefono" class="form-control-plaintext px-1 mx-2" id="telefono" name="telefono" readonly
+                                    value="<%= usuario.getTelefono() %>">
                             </div>
 
                             <div class="col-md-6">
-                                <label for="fecha_nac" class="col-form-label"> <b>Fecha de nacimiento: </b></label>
-                                <input type="date" class="form-control-plaintext px-1 mx-2" id="fecha_nac" name="fecha_nac"
-                                    readonly value="2014-02-09">
+                                <label for="fechaNac" class="col-form-label"> <b>Fecha de nacimiento: </b></label>
+                                <input type="date" class="form-control-plaintext px-1 mx-2" id="fechaNac" name="fechaNac"
+                                    readonly value="<%= usuario.getFechaNac() %>">
                             </div>
                         </div>
 
 
                         <div class="mb-3 row">
-                            <label for="email" class="col-form-label"> <b>Correo: </b></label>
+                            <label for="correo" class="col-form-label"> <b>Correo: </b></label>
                             <div class="col">
-                                <input type="email" class="form-control-plaintext px-1 mx-2" id="email" name="email" readonly
-                                    value="jose.garcia@mail.com">
+                                <input type="correo" class="form-control-plaintext px-1 mx-2" id="correo" name="correo" readonly
+                                    value="<%= usuario.getCorreo() %>">
                             </div>
                         </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-12">
-                                <label for="calle" class="form-label"><b>Calle y numero: </b></label>
-                                <input type="text" class="form-control-plaintext px-1 mx-2" id="calle" readonly placeholder="Av. Peris, 43" 
-                                    value="Av. Peris, 43">
+                                <label for="domicilio" class="form-label"><b>Calle y numecallero: </b></label>
+                                <input type="text" class="form-control-plaintext px-1 mx-2" id="domicilio" name="domicilio" readonly placeholder="Av. Peris, 43" 
+                                    value="<%= usuario.getDomicilio() %>">
                             </div>
                             <div class="col-md-6">
-                                <label for="ciudad" class="form-label"><b>Ciudad: </b></label>
-                                <input type="text" class="form-control-plaintext px-1 mx-2" id="ciudad" readonly value="Valencia">
+                                <label for="poblacion" class="form-label"><b>Ciudad: </b></label>
+                                <input type="text" class="form-control-plaintext px-1 mx-2" id="poblacion" name="poblacion" readonly value="<%= usuario.getPoblacion() %>">
                             </div>
                             <div class="col-md-2">
-                                <label for="CP" class="form-label"><b>CP:</b></label>
-                                <input type="number" class="form-control-plaintext px-1 mx-2" id="CP" readonly value="46000">
+                                <label for="cp" class="form-label"><b>CP:</b></label>
+                                <input type="number" class="form-control-plaintext px-1 mx-2" id="cp" name="cp" readonly value="<%= usuario.getCp() %>">
                             </div>
                             <div class="col-md-4">
-                                <label for="pais" class="form-label"><b>País: </b></label>
-                                <input type="text" class="form-control-plaintext px-1 mx-2" id="pais" readonly value="España">
+                                <label for="pais" class="form-label"><b>Provincia: </b></label>
+                                <input type="text" class="form-control-plaintext px-1 mx-2" id="pais" name="pais" readonly value="<%= usuario.getPais() %>">
 
                             </div>
                         </div>
@@ -206,24 +224,37 @@
                         </section>
 
                         <section id="cambiar_contrasena">
+                        <%
+                        String mensaje = (String)session.getAttribute("mensaje_CambiarPassword");
+
+                        if (mensaje != null) {
+                        %>
+                        <%-- Eliminamos el mensaje consumido --%>
+                        <%
+                            session.removeAttribute("mensaje_CambiarPassword");
+                        %>
+                        <p class="text-center"> <%=mensaje%> </p>
+                        <%
+                        }
+                        %>
                         <div class="row mt-3">
         <div class="col-sm-8 mx-auto">
             <div class="container p-2">
-                <form action="" method="POST" class="mb-2">
+                <form action="form/cambiarcontrasena" method="POST" class="mb-2">
                     <div class="form-floating mb-3 mx-2">
-                        <input type="password" class="form-control" id="floatingpassword"
+                        <input type="password" class="form-control" id="password" name="password"
                             placeholder="Contraseña" required>
-                        <label for="floatingpassword">Contraseña anteriore</label>
+                        <label for="password">Contraseña anteriore</label>
                     </div>
                     <div class="form-floating mb-3 mx-2">
-                        <input type="password" class="form-control" id="floatingpassword_nueva_1"
+                        <input type="password" class="form-control" id="password_nueva_1" name="password_nueva_1"
                             placeholder="Contraseña" required>
-                        <label for="floatingpassword_nueva_1">Nueva contraseña</label>
+                        <label for="password_nueva_1">Nueva contraseña</label>
                     </div>
                     <div class="form-floating mb-3 mx-2">
-                        <input type="password" class="form-control" id="floatingpassword_nueva_2"
+                        <input type="password" class="form-control" id="password_nueva_2" name="password_nueva_2"
                             placeholder="Contraseña" required>
-                        <label for="floatingpassword_nueva_2">Reescribir la nueva contraseña</label>
+                        <label for="password_nueva_2">Reescribir la nueva contraseña</label>
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-5">
                         <button class="btn btn-primary" type="submit">Cambiar<i
@@ -245,7 +276,9 @@
     </div>
     <script src="js/usuario.js"></script>
 
- 
+    <%
+    }
+    %>
 
     <script src="./js/navbar_footer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
