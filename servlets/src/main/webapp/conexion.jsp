@@ -19,7 +19,7 @@
                 <div class="shadow p-3 mb-5 bg-white rounded">
                     <h2>Iniciar seción</h2>
                     <br>
-                    <form action="login" method="POST" class="mb-2">
+                    <form action="form/login" method="POST" class="mb-2">
                         <%
                         String url = request.getParameter("url");
                         if (url != null) {
@@ -29,9 +29,9 @@
                         }
                         %>
                         <div class="form-floating mb-3 mx-5">
-                            <input type="text" class="form-control" id="floatingUsario" placeholder="Usario" required name="usuario"
+                            <input type="text" class="form-control" id="floatingCorreo" placeholder="Correo" required name="correo"
                                 autofocus>
-                            <label for="floatingUsario">Usario</label>
+                            <label for="floatingCorreo">Correo</label>
                         </div>
                         <div class="form-floating mb-3 mx-5">
                             <input type="password" class="form-control" id="floatingpassword" placeholder="Contraseña" name="clave"

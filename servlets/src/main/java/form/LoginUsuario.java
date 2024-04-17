@@ -1,4 +1,5 @@
-package tienda;
+package form;
+import tienda.AccesoBD;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -8,11 +9,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
-public class LoginUsario extends HttpServlet{
+public class LoginUsuario extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Nombre del usuario
-        String usuario = request.getParameter("usuario");  
+        // Nombre del correo
+        String correo = request.getParameter("correo");  
     
         // Clave
         String clave = request.getParameter("clave");  
@@ -27,14 +28,13 @@ public class LoginUsario extends HttpServlet{
         AccesoBD con = AccesoBD.getInstance(); 
 
     
-        if ((usuario != null) && (clave != null)) {
-            int codigo = con.comprobarUsuarioBD(usuario,clave);
+        if ((correo != null) && (clave != null)) {
+            int codigo = con.comprobarUsuarioBD(correo,clave);
             if (codigo>0) {
                 session.setAttribute("usuario",codigo);
-                session.setAttribute("nombre_usario",usuario);
             }
             else {
-                session.setAttribute("mensaje_conexion","Usuario y/o clave incorrectos");
+                session.setAttribute("mensaje_conexion","Correo y/o clave incorrectos");
                 url = request.getContextPath() + "/conexion.jsp"+ (url!=null ? "?url="+url : "" );
             }
         }else{
