@@ -32,6 +32,9 @@ public class LoginUsuario extends HttpServlet{
             int codigo = con.comprobarUsuarioBD(correo,clave);
             if (codigo>0) {
                 session.setAttribute("usuario",codigo);
+                if (url==null) {
+                    url = request.getContextPath() + "/producto.jsp";
+                }
             }
             else {
                 session.setAttribute("mensaje_conexion","Correo y/o clave incorrectos");

@@ -66,8 +66,15 @@ function change_data_card(tab){
 
 }
 
+function get_tab(){
+    let url = window.location.href;
+    let tab = url.split('#')[1];
+    if (tab === undefined){
+        tab = 'datos';
+    }
+    change_data_card(tab);
+}
+
 // by default show the mis-datos tab
-window.addEventListener("load", function(){
-    change_data_card('datos');
-});
+window.addEventListener("load", get_tab);
 

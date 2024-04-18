@@ -174,10 +174,10 @@ public final class AccesoBD {
 
 		return false; 
 	}
-
+	
 	public int updatePassword(int codigo, String password, String newPassword) {
 		abrirConexionBD();
-
+		
 		int OK = -1;
 
 		try {
@@ -213,4 +213,60 @@ public final class AccesoBD {
 
 		return OK;
 	}
+
+	public int addUsuario(UsuarioBD usuario, String clave) {
+		int status =  -1; // -1 means that the user was not added because of un error in the BD
+
+		abrirConexionBD();
+
+		try {
+
+			String con = "SELECT codigo FROM usuarios WHERE correo=?";
+			PreparedStatement s1 = conexionBD.prepareStatement(con);
+			s1.setString(1, usuario.getCorreo());
+
+			ResultSet resultado = s1.executeQuery();
+
+			if (resultado.next()) {
+				status = 0; // means that a user with the same email already exists
+			} else {
+				String consulta = "INSERT INTO usuarios (nombre, apellidos, poblacion, pais, cp, telefono, fechaNac, correo, domicilio, clave) VALUES (?,?,?,?,?,?,?,?,?,?)";
+				
+				// hay que tener en cuenta las columnas de la tabla de productos
+				
+				PreparedStatement s = conexionBD.prepareStatement(consulta);
+				
+				s.setString(1, usuario.getNombre());
+				s.setString(2, usuario.getApellidos());
+				s.setString(3, usuario.getPoblacion());
+				s.setString(4, usuario.getPais());
+				s.setString(5, usuario.getCp());
+				s.setString(6, usuario.getTelefono());
+				s.setString(7, usuario.getFechaNac());
+				s.setString(8, usuario.getCorreo());
+				s.setString(9, usuario.getDomicilio());
+				s.setString(10, clave);
+
+				int filas = s.executeUpdate();
+				
+				
+				if (filas == 0) {
+					System.err.println("No se ha añadido ningún usuario");
+					status = -1;
+				}
+				else status = 1;
+			}
+				
+			
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+		}
+
+		return status; 
+	}
+
+	
+	
 }

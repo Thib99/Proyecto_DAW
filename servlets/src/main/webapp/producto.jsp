@@ -9,6 +9,7 @@
     <title>Producto</title>
     
     <script src="js/manage_cart.js"></script>
+    <script src="js/alert.js"></script>
 </head>
 
 <body>
@@ -71,15 +72,20 @@
                         <p class="text-center card-text" > <%= producto.getPrecio() %>€ </p>
                     </div>
                     <div class="card-footer">
-
+                        <% if (producto.getStock() <= 0){ %>
+                            <p class="text-center card-text" >Producto agotado</p>
+                        <% } else{%>
                         <div class="input-group justify-content-center">
                             <form >
                                 <input class="form-control-sm text-center" type="number" value="1" min="1" max="<%= Math.max(producto.getStock(), 10) %>"
                                 name="nbr_prod" >
                                 <button class="btn btn-primary" type="button"
-                                onclick="agregarProducto(<%= producto.getCodigo()%>, ' <%= producto.getDescripcion()%> ' , this.form[0].value,  <%= producto.getPrecio()%>, '<%= producto.getImagen1()%>');">Comprar</button>
+                                onclick="agregarProducto(<%= producto.getCodigo()%>, ' <%= producto.getDescripcion()%> ' , this.form[0].value,  <%= producto.getPrecio()%>, '<%= producto.getImagen1()%>');">
+                                                    Comprar
+                                                </button>
                             </form>
                         </div>
+                        <% } %>
                     </div>
 
 

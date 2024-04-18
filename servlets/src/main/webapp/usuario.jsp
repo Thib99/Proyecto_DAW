@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="tienda.*" pageEncoding="UTF-8" %>
 
+<%
+    if (session.getAttribute("usuario") == null) {
+        response.sendRedirect("conexion.jsp?url="+request.getRequestURI());
+    }else {
+%>
+
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="es">
 
@@ -9,17 +15,32 @@
     <title>Mi cuenta</title>
     
     <!-- <link rel="stylesheet" href="css/usario.css"> -->
+    <script src="./js/navbar_footer.js"></script>
+    <script src="./js/usuario.js"></script>
+    <script src="./js/alert.js"></script>
+
 
 </head>
 
 <body>
     <%
-    if (session.getAttribute("usuario") == null) {
-        response.sendRedirect("conexion.jsp?url="+request.getRequestURI());
-    }else {
+    String notif = (String)session.getAttribute("notification_msg");
+    String type = (String)session.getAttribute("notification_type");
+
+    if (notif != null) { 
     %>
-
-
+    <%-- Eliminamos el mensaje consumido --%>
+    <%
+        session.removeAttribute("notification_msg");
+        session.removeAttribute("notification_type");
+    %>
+    
+    <script>
+        notificationALert('<%=notif%>', '<%=type%>') ;
+    </script>
+    <%
+    }
+    %>
     
     <div>
         <div class="container my-3">
@@ -32,7 +53,7 @@
                                 <a class="nav-link active" onclick="change_data_card('datos')">Mis datos</a>
                             </li>
                             <li class=" nav-item">
-                                    <a class="nav-link" onclick="change_data_card('pedidos')">Mis pedidos</a>
+                                    <a class="nav-link"  onclick="change_data_card('pedidos')">Mis pedidos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" onclick="change_data_card('contrasena')">Cambiar contraseña</a>
@@ -47,19 +68,7 @@
                         %>
                         <div class="container p-4">
                         
-                        <%
-                        String mensaje2 = (String)session.getAttribute("mensaje_CambioDatos");
-
-                        if (mensaje2 != null) {
-                        %>
-                        <%-- Eliminamos el mensaje consumido --%>
-                        <%
-                            session.removeAttribute("mensaje_CambioDatos");
-                        %>
-                        <p class="text-center"> <%=mensaje2%> </p>
-                        <%
-                        }
-                        %>
+                        
                     <form action="form/cambiardatos" method="POST" id="form1">
 
                         <div class="row g-3 mb-3">
@@ -136,50 +145,51 @@
     </div>  
                         </section>
 
-                        <section id="pedidos">
+                    <section id="pedidos">
                         <div class="container">
-            <div class="accordion" id="accordionMain">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Encargo en curso
-                    </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionMain">
-                    <div class="accordion-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered w-100 text-center">
-                            <tr>
-                                <th>Producto</th>
-                                <th>Fecha de pedido</th>
-                                <th>Estado</th>
-                                <th>Precio</th>
-                                <th>Nbr products</th>
-                                <th>Cancelar</th>
-                            </tr>
-                            <tr>
-                                <td>Producto 1</td>
-                                <td>Fecha 1</td>
-                                <td>Prepapración</td>
-                                <td>200</td>
-                                <td>3</td>
-                                <td><a href="#" class="rm-base"><i class="bi bi-x-lg"></i></a></td>
-                                
-                            </tr>
-                            <tr>
-                                <td>Producto 2</td>
-                                <td>Fecha 2</td>
-                                <td>Prepapración</td>
-                                <td>400</td>
-                                <td>6</td>
-                                <td><a href="#" class="rm-base"><i class="bi bi-x-lg"></i></a></td>
-                                
-                            </tr>
-                        </table>
-                    </div>
-                    </div>
-                    </div>
-                </div>
+                        <div class="accordion" id="accordionMain">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Pedido del dia 25/01/2024 || Estado
+                                    </button>
+                                </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionMain">
+                        <div class="accordion-body">
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered w-100 text-center">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Fecha de pedido</th>
+                                    <th>Estado</th>
+                                    <th>Precio</th>
+                                    <th>Nbr products</th>
+                                    <th>Cancelar</th>
+                                </tr>
+                                <tr>
+                                    <td>Producto 1</td>
+                                    <td>Fecha 1</td>
+                                    <td>Prepapración</td>
+                                    <td>200</td>
+                                    <td>3</td>
+                                    <td><a href="#" class="rm-base"><i class="bi bi-x-lg"></i></a></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>Producto 2</td>
+                                    <td>Fecha 2</td>
+                                    <td>Prepapración</td>
+                                    <td>400</td>
+                                    <td>6</td>
+                                    <td><a href="#" class="rm-base"><i class="bi bi-x-lg"></i></a></td>
+                                    
+                                </tr>
+                            </table>
+                        </div>
+                        </div>
+                        </div>
+                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -225,13 +235,13 @@
 
                         <section id="cambiar_contrasena">
                         <%
-                        String mensaje = (String)session.getAttribute("mensaje_CambiarPassword");
+                        String mensaje = (String)session.getAttribute("mensaje");
 
                         if (mensaje != null) {
                         %>
                         <%-- Eliminamos el mensaje consumido --%>
                         <%
-                            session.removeAttribute("mensaje_CambiarPassword");
+                            session.removeAttribute("mensaje");
                         %>
                         <p class="text-center"> <%=mensaje%> </p>
                         <%
@@ -274,14 +284,13 @@
         </div>
 
     </div>
-    <script src="js/usuario.js"></script>
 
-    <%
-    }
-    %>
 
-    <script src="./js/navbar_footer.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
+    <%
+    }
+    %>

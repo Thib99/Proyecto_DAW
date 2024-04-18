@@ -32,4 +32,34 @@
     <servlet-name>cambiarpassword</servlet-name>
     <url-pattern>/form/cambiarcontrasena</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>NuevoUsuario</servlet-name>
+    <servlet-class>form.NuevoUsuario</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>NuevoUsuario</servlet-name>
+    <url-pattern>/form/nuevoUsuario</url-pattern> <!-- Adjust the URL pattern as needed -->
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>NuevoUsuario</servlet-name>
+    <servlet-class>form.NuevoUsuario</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>NuevoUsuario</servlet-name>
+    <url-pattern>/form/nuevoUsuario</url-pattern> <!-- Adjust the URL pattern as needed -->
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>desconexion</servlet-name>
+    <servlet-class>tienda.CerrarSesion</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>desconexion</servlet-name>
+    <url-pattern>/desconexion</url-pattern> <!-- Adjust the URL pattern as needed -->
+  </servlet-mapping>
 </web-app>

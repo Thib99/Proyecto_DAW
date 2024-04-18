@@ -27,7 +27,8 @@ public class CambiarPassword extends HttpServlet {
         } else {
             int state  = con.updatePassword(codigo, password, password_nueva_1) ;
             if (state == 1) {
-                session.setAttribute("mensaje_CambiarPassword", "Contraseña actualizada correctamente");
+                session.setAttribute("notification_msg", "Contraseña actualizada correctamente");
+                session.setAttribute("notification_type", "success");
             } else if (state == 0) {
                 session.setAttribute("mensaje_CambiarPassword", "Contraseña incorrecta");
             } else {
@@ -39,7 +40,7 @@ public class CambiarPassword extends HttpServlet {
 
 
 
-        String url= request.getContextPath() + "/usuario.jsp";
+        String url= request.getContextPath() + "/usuario.jsp#contrasena";
         response.sendRedirect(url);
     }
 } 

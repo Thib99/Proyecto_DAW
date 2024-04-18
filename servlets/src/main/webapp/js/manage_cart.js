@@ -1,4 +1,6 @@
 
+
+
 // LOGICA
 window.addEventListener("load", cargarCarrito);
 window.addEventListener("load", UPDATE_DISPLAY);
@@ -55,6 +57,7 @@ function agregarProducto(codigo, nombre, cantidad, precio, url_imagen) { //TODO 
     for (var i = 0; i < carrito.length; i++) {
         if (carrito[i].codigo === codigo) {
             carrito[i].cantidad = parseInt(cantidad) + parseInt( carrito[i].cantidad) ;
+            cantidad = carrito[i].cantidad;
             if (carrito[i].cantidad < 0) {
                 eliminarProducto(codigo, false);
             }
@@ -65,8 +68,9 @@ function agregarProducto(codigo, nombre, cantidad, precio, url_imagen) { //TODO 
     if (!found) {
         carrito.push(crearObjetoCarrito(codigo, nombre, cantidad, precio, url_imagen));
     }
-    console.log(carrito);
     guardarCarrito();
+
+    notifPersonalizada(nombre, cantidad);
 
 }
 
@@ -89,6 +93,14 @@ function eliminarCarrito() {
 }
 
 // VISUAL
+function notifPersonalizada(nombre, cantidad) {
+    var message = "Se ha añadido " + cantidad + " " + nombre + " al carrito.";
+    var type = "secondary";
+
+    // Create notification div
+    notificationALert(message, type);
+}
+
 function UPDATE_DISPLAY() {
     displayCarrito();
     resumenCarrito_UPDATE();

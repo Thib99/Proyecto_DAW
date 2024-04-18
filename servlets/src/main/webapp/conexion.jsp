@@ -7,11 +7,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Conexión</title>
-
+    <script src="./js/alert.js"></script>
 </head>
 
 <body>
+    <%
+    String notif = (String)session.getAttribute("notification_msg");
+    String type = (String)session.getAttribute("notification_type");
+
+    if (notif != null) { 
+    %>
+    <%-- Eliminamos el mensaje consumido --%>
+    <%
+        session.removeAttribute("notification_msg");
+        session.removeAttribute("notification_type");
+    %>
     
+    <script>
+        notificationALert('<%=notif%>', '<%=type%>') ;
+    </script>
+    <%
+    }
+    %>
     <section>
         <div class="container mt-5">
 
@@ -59,7 +76,7 @@
                                     class="bi bi-lock-fill"></i></button>
                         </div>
                     </form>
-                    <p class="mx-5">Si aún no tiene una cuenta, pulse <a href="registrar.html">aqui</a> para registrarse.</p>
+                    <p class="mx-5">Si aún no tiene una cuenta, pulse <a href="registrar.jsp">aqui</a> para registrarse.</p>
                 </div>
             </div>
         </div>
