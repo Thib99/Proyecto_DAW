@@ -104,7 +104,6 @@ function notifPersonalizada(nombre, cantidad) {
 function UPDATE_DISPLAY() {
     displayCarrito();
     resumenCarrito_UPDATE();
-    console.log("UPDATE_DISPLAY");
 }
 
 function resumenCarrito_UPDATE() {
@@ -126,7 +125,7 @@ function resumenCarrito_UPDATE() {
     document.getElementById("total_cantidad").innerText = total_cantidad ; 
     document.getElementById("precio_entrega").innerText = precio_entrega + "€";
     document.getElementById("total_precio").innerText = total + "€";
-
+    document.getElementById("btn_comprar").disabled = total_cantidad === 0 ; //disable button if no products in cart
 }
 
 

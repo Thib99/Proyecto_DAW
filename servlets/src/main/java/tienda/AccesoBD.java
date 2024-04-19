@@ -209,6 +209,7 @@ public final class AccesoBD {
 			System.err.println("Error en la actualización de la contraseña");
 			System.err.println(e.getMessage());
 			e.printStackTrace();
+			OK = -1;
 		}
 
 		return OK;
@@ -267,6 +268,116 @@ public final class AccesoBD {
 		return status; 
 	}
 
+	public int addPedido(PedidoBD pedido){
+		abrirConexionBD();
+		int status = -1;
+
+		try {
+			String con1 = "INSERT INTO pedidos (persona, fecha, importe, estado) VALUES (?,?,?,?)";
+			PreparedStatement s1 = conexionBD.prepareStatement(con1, Statement.RETURN_GENERATED_KEYS);
+			s1.setInt(1, pedido.getCodigo_usuario());
+			s1.setString(2, pedido.getFecha());
+			s1.setFloat(3, pedido.getPrecio());
+			s1.setInt(4, pedido.getCodigo_estado());
+
+			int filas = s1.executeUpdate();
+			ResultSet rs = s1.getGeneratedKeys();
+
+			if (filas == 0) {
+				System.err.println("No se ha añadido ningún pedido");
+				status = -1;
+			}
+			else {
+				// get the id of the pedido
+				rs.next();
+				pedido.setCodigo(rs.getInt(1));
+
+				String con2 = "INSERT INTO detalle (codigo_pedido, codigo_producto, unidades, precio_unitario) VALUES (?,?,?,?)";
+				PreparedStatement s2 = conexionBD.prepareStatement(con2);
+				for (PedidoBD.DetallePedido detalle : pedido.getDetalle()) {
+					s2.setInt(1, pedido.getCodigo());
+					s2.setInt(2, detalle.getCodigo_producto());
+					s2.setInt(3, detalle.getCantidad());
+					s2.setFloat(4, detalle.getPrecio());
+					filas = s2.executeUpdate();
+					if (filas == 0) {
+						System.err.println("No se ha añadido un detalle");
+						return -1;
+					}
+					else status = 1;
+				}
+			}
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+			status = -1;
+		}
+
+		return status; 
+	}
 	
+
+	public List<PedidoBD> getAllPedidos(int codigo_usuario) {
+
+		abrirConexionBD();
+
+		List<PedidoBD> pedidos = new ArrayList<>();
+		try {
+
+			// first we will get all the pedidos of the user
+			String con1 = "SELECT ped.codigo, ped.fecha, ped.importe, es.descripcion AS estado, ped.estado AS codigo_estado FROM pedidos ped JOIN estados es ON ped.estado=es.codigo WHERE ped.persona=? ORDER BY ped.fecha DESC";
+
+
+			PreparedStatement s1 = conexionBD.prepareStatement(con1);
+			s1.setInt(1, codigo_usuario);
+			ResultSet resultado1 = s1.executeQuery();
+
+			// then we will get all the details of each pedido
+			String con2 = "SELECT det.unidades, det.precio_unitario, prod.descripcion FROM detalle det JOIN productos prod ON det.codigo_producto=prod.codigo WHERE det.codigo_pedido=?";
+			PreparedStatement s2 = conexionBD.prepareStatement(con2);
+			ResultSet resultado2;
+			PedidoBD pedido;
+			PedidoBD.DetallePedido detalle ;
+			int nombre_producto = 0 ;
+
+
+			while(resultado1.next()) {
+				System.out.println("codigo pedido: " + resultado1.getInt("codigo"));
+				pedido = new PedidoBD();
+				nombre_producto = 0 ;
+				pedido.setCodigo(resultado1.getInt("codigo"));
+				pedido.setCodigo_estado(resultado1.getInt("codigo_estado"));
+				pedido.setFecha(resultado1.getString("fecha"));
+				pedido.setPrecio(resultado1.getFloat("importe"));
+				pedido.setEstado(resultado1.getString("estado"));
+
+				s2.setInt(1, pedido.getCodigo());
+				resultado2 = s2.executeQuery();
+
+				while(resultado2.next()) {
+					detalle = pedido.new DetallePedido();
+					detalle.setCantidad(resultado2.getInt("unidades"));
+					detalle.setPrecio(resultado2.getFloat("precio_unitario"));
+					detalle.setNombre_producto(resultado2.getString("descripcion"));
+					pedido.getDetalle().add(detalle);
+
+					nombre_producto += detalle.getCantidad();
+				}
+				pedido.setNombre_producto(nombre_producto);
+	
+				pedidos.add(pedido);
+			}
+
+			
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e);
+		}
+
+		return pedidos; 
+	}
+
 	
 }

@@ -4,15 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoBD {
-    String fecha ;
-    String estado ;
-    String precio ;
-    int codigo ;
-    int codigo_usuario ;
-    int nombre_producto ;
+    private String fecha ;
+    private String estado ;
+    private int codigo_estado ;
     
-    List<DetallePedido> detalle ;
+    private float precio ;
+    private int codigo ;
+    private int codigo_usuario ;
+    private int nombre_producto ;
     
+    private List<DetallePedido> detalle ;
+    
+    public int getCodigo_estado() {
+        return codigo_estado;
+    }
+
+    public void setCodigo_estado(int codigo_estado) {
+        this.codigo_estado = codigo_estado;
+    }
     public int getNombre_producto() {
         return nombre_producto;
     }
@@ -37,11 +46,11 @@ public class PedidoBD {
         this.estado = estado;
     }
 
-    public String getPrecio() {
+    public float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(float precio) {
         this.precio = precio;
     }
 
@@ -69,15 +78,15 @@ public class PedidoBD {
         this.detalle = detalle;
     }
 
-    PedidosBD() {
+    public PedidoBD() {
         detalle = new ArrayList<DetallePedido>();
     }
 
     public class DetallePedido {
-        int codigo_producto ;
-        int cantidad ;
-        String nombre_producto ;
-        String precio ;
+        private int codigo_producto ;
+        private int cantidad ;
+        private String nombre_producto ;
+        private float precio ;
         public int getCodigo_producto() {
             return codigo_producto;
         }
@@ -96,10 +105,10 @@ public class PedidoBD {
         public void setNombre_producto(String nombre_producto) {
             this.nombre_producto = nombre_producto;
         }
-        public String getPrecio() {
+        public float getPrecio() {
             return precio;
         }
-        public void setPrecio(String precio) {
+        public void setPrecio(float precio) {
             this.precio = precio;
         }
 

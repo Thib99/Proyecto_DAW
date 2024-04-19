@@ -43,15 +43,7 @@
     <url-pattern>/form/nuevoUsuario</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
   
-  <servlet>
-    <servlet-name>NuevoUsuario</servlet-name>
-    <servlet-class>form.NuevoUsuario</servlet-class>
-  </servlet>
 
-  <servlet-mapping>
-    <servlet-name>NuevoUsuario</servlet-name>
-    <url-pattern>/form/nuevoUsuario</url-pattern> <!-- Adjust the URL pattern as needed -->
-  </servlet-mapping>
 
   <servlet>
     <servlet-name>desconexion</servlet-name>
@@ -62,4 +54,16 @@
     <servlet-name>desconexion</servlet-name>
     <url-pattern>/desconexion</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>NuevoPedido</servlet-name>
+    <servlet-class>form.NuevoPedido</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>NuevoPedido</servlet-name>
+    <url-pattern>/form/NuevoPedido</url-pattern> <!-- Adjust the URL pattern as needed -->
+  </servlet-mapping>
+  
+ 
 </web-app>

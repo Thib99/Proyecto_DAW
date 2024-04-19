@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="tienda.*" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="es">
 
@@ -6,10 +8,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Carrito</title>
     <script src="js/manage_cart.js"></script>
+    <script src="js/enviar_cart.js"></script>
+    <script src="js/alert.js"></script>
 
 </head>
 
 <body>
+    <%
+    String notif = (String)session.getAttribute("notification_msg");
+    String type = (String)session.getAttribute("notification_type");
+
+    if (notif != null) { 
+    %>
+    <%-- Eliminamos el mensaje consumido --%>
+    <%
+        session.removeAttribute("notification_msg");
+        session.removeAttribute("notification_type");
+    %>
+    
+    <script>
+        notificationALert('<%=notif%>', '<%=type%>') ;
+    </script>
+    <%
+    }
+    %>
+
     <section>
 
         <div class="container-fluid">
@@ -70,8 +93,8 @@
                         </div>
                         <div class="card-footer">
                             <div class="d-grid col-8 mx-auto">
-                                <button type="button" class="btn btn-success btn-lg">Pedir <span class="mx-2"> <i
-                                            class="bi bi-box-seam"></i></span></button>
+                                <button type="button" class="btn btn-success btn-lg" onclick="EnviarCarrito();" id="btn_comprar">Pedir <span class="mx-2"> <i
+                                            class="bi bi-box-seam" ></i></span></button>
                             </div>
                         </div>
                     </div>

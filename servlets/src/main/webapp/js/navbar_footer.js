@@ -38,7 +38,7 @@ function createHeaderAndFooter() {
                         <ul class="navbar-nav mx-auto">
 
                             <li class="nav-item">
-                                <a  href="carrito.html">
+                                <a  href="carrito.jsp">
                                     <span class="m-sm-2">
                                         <button type="button" class="btn btn-outline-secondary">Carrito<span class="p-1"><i class="bi bi-cart3"></i></span></button>
                                     </span>

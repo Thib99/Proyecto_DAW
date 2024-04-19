@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="tienda.*" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.List,tienda.*" pageEncoding="UTF-8" %>
 
 <%
     if (session.getAttribute("usuario") == null) {
@@ -146,90 +146,71 @@
                         </section>
 
                     <section id="pedidos">
+                        <%
+                        List<PedidoBD> pedidos = con.getAllPedidos((int)session.getAttribute("usuario"));
+                        %>
                         <div class="container">
-                        <div class="accordion" id="accordionMain">
+                        <div class="accordion" id="accordion_div">
+                        <% for (int i = 0 ; i < pedidos.size() ; i++) { 
+                            PedidoBD pedido = pedidos.get(i);
+                            boolean boolean_first = (i==0) ;
+                            String id = "accordion_"+i;
+                        %>
+                        
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Pedido del dia 25/01/2024 || Estado
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#<%= id %>" aria-expanded="<%= boolean_first ? "true" :"false" %>" aria-controls="<%= id %>">
+                                        <div class="d-flex justify-content-between">
+                                          <div class="p-2">Pedido del <%= pedido.getFecha() %></div>
+                                          <div class="p-2"> <b> <%= pedido.getEstado() %> </b> </div>
+                                        </div>
                                     </button>
                                 </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionMain">
-                        <div class="accordion-body">
-                        <div class="table-responsive">
+                                <div id="<%= id %>" class="accordion-collapse collapse <%= boolean_first ? "show" :"" %>" data-bs-parent="#accordion_div">
+                                    <div class="accordion-body">
+                                        <div class="d-flex justify-content-around align-items-center">
+                                            <div class="p-2"><b> Precio: </b> <%= pedido.getPrecio() %> €</div>
+                                            <div class="p-2"> <b> Cantidad de productos: </b> <%= pedido.getNombre_producto() %></div>
+                                            <div class="p-2">
+                                                <% if (pedido.getCodigo_estado()== 1) { %>
+                                                <button type="button" class="btn btn-danger">Cancelar pedido </button>
+                                                <% }else { %>
+                                                <button type="button" class="btn btn-success">Volver a recomendar </button>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                
 
-                            <table class="table table-bordered w-100 text-center">
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Fecha de pedido</th>
-                                    <th>Estado</th>
-                                    <th>Precio</th>
-                                    <th>Nbr products</th>
-                                    <th>Cancelar</th>
-                                </tr>
-                                <tr>
-                                    <td>Producto 1</td>
-                                    <td>Fecha 1</td>
-                                    <td>Prepapración</td>
-                                    <td>200</td>
-                                    <td>3</td>
-                                    <td><a href="#" class="rm-base"><i class="bi bi-x-lg"></i></a></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td>Producto 2</td>
-                                    <td>Fecha 2</td>
-                                    <td>Prepapración</td>
-                                    <td>400</td>
-                                    <td>6</td>
-                                    <td><a href="#" class="rm-base"><i class="bi bi-x-lg"></i></a></td>
-                                    
-                                </tr>
-                            </table>
+                                        <div class="table-responsive">
+
+                                            <table class="table table-bordered w-100 text-center">
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Precio unitario</th>
+                                                    <th>Nbr products</th>
+                                                    <th>Precio total</th>
+                                                </tr>
+                                                <% for(PedidoBD.DetallePedido detalle : pedido.getDetalle()){ %>
+                                                <tr>
+                                                    <td><%= detalle.getNombre_producto() %></td>
+                                                    <td><%= detalle.getPrecio() %></td>
+                                                    <td><%= detalle.getCantidad() %></td>
+                                                    <td><%= detalle.getCantidad()* detalle.getPrecio() %></td>
+                                                    
+                                                    
+                                                </tr>
+                                                <% } %>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <% } %>    
+                    
                         </div>
                         </div>
-                        </div>
-                 </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Pedido entregado
-                    </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionMain">
-                    <div class="accordion-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered w-100 text-center">
-                            <tr>
-                                <th>Producto</th>
-                                <th>Fecha de entrega</th>
-                                <th>Precio</th>
-                                <th>Nbr products</th>
-                                <th>Volver a pedir</th>
-                            </tr>
-                            <tr>
-                                <td>Producto 1</td>
-                                <td>Fecha 1</td>
-                                <td>200</td>
-                                <td>3</td>
-                                <td><a href="#" class="rm-base"><i class="bi bi-arrow-repeat"></i></a></td>
-                                
-                            </tr>
-                            <tr>
-                                <td>Producto 2</td>
-                                <td>Fecha 2</td>
-                                <td>400</td>
-                                <td>6</td>
-                                <td><a href="#" class="rm-base"><i class="bi bi-arrow-repeat"></i></a></td>
-                                
-                            </tr>
-                        </table>  
-                    </div>
-                    </div>
-                    </div>
-                </div>
                 
-                </div>
 
                         </section>
 
