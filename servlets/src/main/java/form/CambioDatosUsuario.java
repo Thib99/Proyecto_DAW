@@ -33,12 +33,13 @@ public class CambioDatosUsuario extends HttpServlet {
         if (funciona) {
             session.setAttribute("notification_msg", "Datos actualizados correctamente");
             session.setAttribute("notification_type", "success");
+            session.setAttribute("nombre", usuario.getNombre());
         } else {
             session.setAttribute("notification_msg", "Error al actualizar los datos");
             session.setAttribute("notification_type", "danger");
         }
 
-        String url= request.getContextPath() + "/usuario.jsp#pedidos";
+        String url= request.getContextPath() + "/usuario.jsp#datos";
         response.sendRedirect(url);
     }
 } 

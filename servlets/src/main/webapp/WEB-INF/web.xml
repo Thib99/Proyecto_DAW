@@ -43,16 +43,14 @@
     <url-pattern>/form/nuevoUsuario</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
   
-
-
   <servlet>
     <servlet-name>desconexion</servlet-name>
-    <servlet-class>tienda.CerrarSesion</servlet-class>
+    <servlet-class>api.CerrarSesion</servlet-class>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>desconexion</servlet-name>
-    <url-pattern>/desconexion</url-pattern> <!-- Adjust the URL pattern as needed -->
+    <url-pattern>/api/desconexion</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
 
   <servlet>
@@ -63,6 +61,46 @@
   <servlet-mapping>
     <servlet-name>NuevoPedido</servlet-name>
     <url-pattern>/form/NuevoPedido</url-pattern> <!-- Adjust the URL pattern as needed -->
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Contacto</servlet-name>
+    <servlet-class>form.Contacto</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Contacto</servlet-name>
+    <url-pattern>/form/contacto</url-pattern> Adjust the URL pattern as needed
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CancelarPedido</servlet-name>
+    <servlet-class>form.CancelarPedido</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>CancelarPedido</servlet-name>
+    <url-pattern>/form/cancelarpedido</url-pattern> <!-- Adjust the URL pattern as needed -->
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>NuevaTarjeta</servlet-name>
+    <servlet-class>form.NuevaTarjeta</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>NuevaTarjeta</servlet-name>
+    <url-pattern>/form/nuevatarjeta</url-pattern> <!-- Adjust the URL pattern as needed -->
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Connected</servlet-name>
+    <servlet-class>api.Connected</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Connected</servlet-name>
+    <url-pattern>/api/connected</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
   
  

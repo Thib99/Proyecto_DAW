@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.List,tienda.*" pageEncoding="UTF-8" %>
 
-<%
+<%  
+    // to remove
+    
     if (session.getAttribute("usuario") == null) {
         response.sendRedirect("conexion.jsp?url="+request.getRequestURI());
     }else {
@@ -108,7 +110,7 @@
 
                         <div class="row g-3 mb-3">
                             <div class="col-12">
-                                <label for="domicilio" class="form-label"><b>Calle y numecallero: </b></label>
+                                <label for="domicilio" class="form-label"><b>Calle y número: </b></label>
                                 <input type="text" class="form-control-plaintext px-1 mx-2" id="domicilio" name="domicilio" readonly placeholder="Av. Peris, 43" 
                                     value="<%= usuario.getDomicilio() %>">
                             </div>
@@ -151,6 +153,9 @@
                         %>
                         <div class="container">
                         <div class="accordion" id="accordion_div">
+                        <% if (pedidos.size() == 0) { %>
+                           <p class="text-center"> No hay pedidos ! </p>
+                        <% } %>
                         <% for (int i = 0 ; i < pedidos.size() ; i++) { 
                             PedidoBD pedido = pedidos.get(i);
                             boolean boolean_first = (i==0) ;
@@ -172,10 +177,17 @@
                                             <div class="p-2"><b> Precio: </b> <%= pedido.getPrecio() %> €</div>
                                             <div class="p-2"> <b> Cantidad de productos: </b> <%= pedido.getNombre_producto() %></div>
                                             <div class="p-2">
+                                                
                                                 <% if (pedido.getCodigo_estado()== 1) { %>
-                                                <button type="button" class="btn btn-danger">Cancelar pedido </button>
+                                                    <form action="form/cancelarpedido" method="GET">
+                                                        <input type="hidden" name="id_pedido" value="<%= pedido.getCodigo() %>">
+                                                        <button type="submit" class="btn btn-danger">Cancelar pedido <i class="bi bi-trash"></i> </button>
+                                                    </form>
                                                 <% }else { %>
-                                                <button type="button" class="btn btn-success">Volver a recomendar </button>
+                                                    <form action="form/recomendarpedido" method="GET">
+                                                        <input type="hidden" name="id_pedido" value="<%= pedido.getCodigo() %>">
+                                                        <button type="submit" class="btn btn-success">Volver a recomendar <i class="bi bi-arrow-repeat"></i> </button>
+                                                    </form>
                                                 <% } %>
                                             </div>
                                         </div>
@@ -228,33 +240,36 @@
                         <%
                         }
                         %>
-                        <div class="row mt-3">
-        <div class="col-sm-8 mx-auto">
-            <div class="container p-2">
-                <form action="form/cambiarcontrasena" method="POST" class="mb-2">
-                    <div class="form-floating mb-3 mx-2">
-                        <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Contraseña" required>
-                        <label for="password">Contraseña anteriore</label>
-                    </div>
-                    <div class="form-floating mb-3 mx-2">
-                        <input type="password" class="form-control" id="password_nueva_1" name="password_nueva_1"
-                            placeholder="Contraseña" required>
-                        <label for="password_nueva_1">Nueva contraseña</label>
-                    </div>
-                    <div class="form-floating mb-3 mx-2">
-                        <input type="password" class="form-control" id="password_nueva_2" name="password_nueva_2"
-                            placeholder="Contraseña" required>
-                        <label for="password_nueva_2">Reescribir la nueva contraseña</label>
-                    </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-5">
-                        <button class="btn btn-primary" type="submit">Cambiar<i
-                                class="bi bi-person-plus-fill"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-8 mx-auto">
+                                    <div class="container p-2">
+                                        <form action="form/cambiarcontrasena" method="POST" class="mb-2">
+                                            <div class="form-floating mb-3 mx-2">
+                                                <input type="password" class="form-control" id="password" name="password"
+                                                    placeholder="Contraseña" required>
+                                                <label for="password">Contraseña anteriore</label>
+                                            </div>
+                                            <div class="form-floating mb-3 mx-2">
+                                                <input type="password" class="form-control" id="password_nueva_1" name="password_nueva_1"
+                                                    placeholder="Contraseña" required>
+                                                <label for="password_nueva_1">Nueva contraseña</label>
+                                            </div>
+                                            <div class="form-floating mb-3 mx-2">
+                                                <input type="password" class="form-control" id="password_nueva_2" name="password_nueva_2"
+                                                    placeholder="Contraseña" required>
+                                                <label for="password_nueva_2">Reescribir la nueva contraseña</label>
+                                            </div>
+                                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-5">
+                                                <button class="btn btn-primary" type="submit">Cambiar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="mis_tarjetas">
+                            
                         </section>
 
                     </div>
@@ -266,8 +281,9 @@
 
     </div>
 
-
-    
+   <% if (session.getAttribute("nombre") != null) { %>
+    <script> updateNameUser("<%=session.getAttribute("nombre") %>") ; </script>
+    <% } %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

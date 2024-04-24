@@ -1,4 +1,4 @@
-package tienda;
+package api;
 
 
 import java.io.IOException;

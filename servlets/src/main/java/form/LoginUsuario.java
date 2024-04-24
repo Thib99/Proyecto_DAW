@@ -1,5 +1,6 @@
 package form;
 import tienda.AccesoBD;
+import tienda.UsuarioBD;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -29,9 +30,10 @@ public class LoginUsuario extends HttpServlet{
 
     
         if ((correo != null) && (clave != null)) {
-            int codigo = con.comprobarUsuarioBD(correo,clave);
-            if (codigo>0) {
-                session.setAttribute("usuario",codigo);
+            UsuarioBD usuario = con.comprobarUsuarioBD(correo,clave);
+            if (usuario != null) {
+                session.setAttribute("usuario",usuario.getCodigo());
+                session.setAttribute("nombre",usuario.getNombre());
                 if (url==null) {
                     url = request.getContextPath() + "/producto.jsp";
                 }

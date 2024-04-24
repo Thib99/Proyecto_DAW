@@ -1,22 +1,3 @@
-function invokeScript(divid) {
-	var scriptObj = divid.getElementsByTagName("SCRIPT");
-	var len = scriptObj.length;
-	for (var i = 0; i < len; i++) {
-		var scriptText = scriptObj[i].text;
-		var scriptFile = scriptObj[i].src
-		var scriptTag = document.createElement("SCRIPT");
-		if ((scriptFile != null) && (scriptFile != "")) {
-			scriptTag.src = scriptFile;
-		}
-		scriptTag.text = scriptText;
-		if (!document.getElementsByTagName("HEAD")[0]) {
-			document.createElement("HEAD").appendChild(scriptTag)
-		}
-		else {
-			document.getElementsByTagName("HEAD")[0].appendChild(scriptTag);
-		}
-	}
-}
 
 function nuevaConexion() {
 	var xmlhttp = false;
@@ -37,22 +18,27 @@ function nuevaConexion() {
 	return xmlhttp;
 }
 
-function prepCarrito(){
-    for (var i = 0; i < carrito.length; i++) {
-        if (carrito[i].codigo === codigo) {
-            carrito.splice(i, 1);
-            break;
-        }
-    }
+
+function checkIfCard(){
+	var formCard = document.getElementById("form_tarjeta");
+	var creditCard = formCard["creditCard"]
+	
+	if (creditCard !== undefined ){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 
 function EnviarCarrito(){
-    cargarCarrito() ;
-    
-    EnviarData("form/NuevoPedido", carrito);
-    console.log("Carrito enviado");
-    console.log(carrito);
+	if (checkIfCard()){
+		cargarCarrito() ;
+		const carrito_JSON = JSON.stringify(carrito);
+		EnviarData("form/NuevoPedido", carrito_JSON); // transforming the object to avoid inteference with the delete function
+	}else{
+		notificationALert("Por favor ingrese una tarjeta", "danger");
+	}
 }
 
 
@@ -62,14 +48,22 @@ function EnviarData(url, valores) {
 	conexion.onreadystatechange = function () {
 		if ((conexion.readyState == 4) && (conexion.status == 200)) {
             // write responce here
-            notificationALert("Producto send", "success");
+			var responce_json = JSON.parse(conexion.responseText);
+			if ( "error" in responce_json) {
+				notificationALert(responce_json.error, "danger");
+			}
+			if ("id_pedido" in responce_json) {
+				eliminarCarrito();
+				sessionStorage.setItem("id_pedido", responce_json.id_pedido);
+				window.location.href = "pagorealizado.jsp";
+			}
 		}else{
-            notificationALert("Error al enviar el producto", "danger");
+            notificationALert("Error al enviar del pedido", "danger");
         }
 	}
     conexion.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 
 
 
-	conexion.send(JSON.stringify(valores));
+	conexion.send(valores);
 }

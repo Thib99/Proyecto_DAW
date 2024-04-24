@@ -3,6 +3,8 @@ package tienda;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public final class AccesoBD {
 	private static AccesoBD instanciaUnica = null;
@@ -44,6 +46,29 @@ public final class AccesoBD {
 		return (conexionBD != null);
 	}
 
+	public static String hashPassword(String password) {
+		try { //show never fail because we are using SHA-256 as a fixed value
+
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+			// Calculate the hash of the password
+			byte[] hashedBytes = digest.digest(password.getBytes());
+
+			// convet the byte to hex format so we can put it to the database
+			StringBuilder sb = new StringBuilder();
+			for (byte b : hashedBytes) {
+				sb.append(String.format("%02x", b));
+			}
+
+			return sb.toString();
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("Error en la encriptación de la contraseña");
+			System.err.println(e.getMessage());
+			
+		}
+		return null;
+	}
+
 	public List<ProductoBD> obtenerProductosBD() {
 		abrirConexionBD();
 
@@ -75,24 +100,26 @@ public final class AccesoBD {
 		return productos;
 	}
 
-	public int comprobarUsuarioBD(String correo, String clave) {
+	public UsuarioBD comprobarUsuarioBD(String correo, String clave) {
 		abrirConexionBD();
 
-		int codigo = -1;
+		UsuarioBD usuario = new UsuarioBD();
 
 		try {
-			// TODO had encryption to the password
-			String con = "SELECT codigo FROM usuarios WHERE correo=? AND clave=?";
+
+			String con = "SELECT codigo, nombre, clave  FROM usuarios WHERE correo=?";
 			PreparedStatement s = conexionBD.prepareStatement(con);
 			s.setString(1, correo);
-			s.setString(2, clave);
 
 			ResultSet resultado = s.executeQuery();
 
 			// El correo/clave se encuentra en la BD
 
-			if (resultado.next()) {
-				codigo = resultado.getInt("codigo");
+			if (resultado.next() && resultado.getString("clave").equals(hashPassword(clave))) {
+				usuario.setNombre(resultado.getString("nombre"));
+				usuario.setCodigo(resultado.getInt("codigo"));
+			} else {
+				usuario = null;
 			}
 		} catch (Exception e) {
 
@@ -100,9 +127,10 @@ public final class AccesoBD {
 			System.err.println("Error verificando correo/clave");
 			System.err.println(e.getMessage());
 			e.printStackTrace();
+			usuario = null;
 		}
 
-		return codigo;
+		return usuario;
 	}
 
 	public UsuarioBD obtenerUsuarioBD(int codigo) {
@@ -157,52 +185,49 @@ public final class AccesoBD {
 			s.setString(9, usuario.getDomicilio());
 			s.setInt(10, codigo);
 
-
-
 			int filas = s.executeUpdate();
 			if (filas == 0) {
 				System.err.println("No se ha actualizado ningún usuario");
 				return false;
-			}
-			else return true;
-			
+			} else
+				return true;
 
 		} catch (Exception e) {
 			System.err.println("Error ejecutando la consulta a la base de datos");
 			System.err.println(e.getMessage());
 		}
 
-		return false; 
+		return false;
 	}
-	
+
 	public int updatePassword(int codigo, String password, String newPassword) {
 		abrirConexionBD();
-		
+
 		int OK = -1;
 
 		try {
-			// TODO had encryption to the password
-			String con = "SELECT codigo FROM usuarios WHERE codigo=? AND clave=?";
+
+			String con = "SELECT codigo, clave FROM usuarios WHERE codigo=?";
 			PreparedStatement s = conexionBD.prepareStatement(con);
 			s.setInt(1, codigo);
-			s.setString(2, password);
 
 			ResultSet resultado = s.executeQuery();
 
-			// Search if the password is good 
-			if (resultado.next()) {
+			// Search if the password is good
+			if (resultado.next() && resultado.getString("clave").equals(hashPassword(password))) {
 				codigo = resultado.getInt("codigo");
 				String con2 = "UPDATE usuarios SET clave=? WHERE codigo=?";
 				PreparedStatement s2 = conexionBD.prepareStatement(con2);
-				s2.setString(1, newPassword);
+				s2.setString(1, hashPassword(newPassword));
 				s2.setInt(2, codigo);
 				int filas = s2.executeUpdate();
 				if (filas == 0) {
 					System.err.println("No se ha actualizado ningún usuario");
-					OK = -1 ;
-				}
-				else OK = 1;
-			}else OK = 0;
+					OK = -1;
+				} else
+					OK = 1;
+			} else
+				OK = 0;
 		} catch (Exception e) {
 
 			// Error en la conexión con la BD
@@ -216,7 +241,7 @@ public final class AccesoBD {
 	}
 
 	public int addUsuario(UsuarioBD usuario, String clave) {
-		int status =  -1; // -1 means that the user was not added because of un error in the BD
+		int status = -1; // -1 means that the user was not added because of un error in the BD
 
 		abrirConexionBD();
 
@@ -232,11 +257,11 @@ public final class AccesoBD {
 				status = 0; // means that a user with the same email already exists
 			} else {
 				String consulta = "INSERT INTO usuarios (nombre, apellidos, poblacion, pais, cp, telefono, fechaNac, correo, domicilio, clave) VALUES (?,?,?,?,?,?,?,?,?,?)";
-				
+
 				// hay que tener en cuenta las columnas de la tabla de productos
-				
+
 				PreparedStatement s = conexionBD.prepareStatement(consulta);
-				
+
 				s.setString(1, usuario.getNombre());
 				s.setString(2, usuario.getApellidos());
 				s.setString(3, usuario.getPoblacion());
@@ -246,33 +271,31 @@ public final class AccesoBD {
 				s.setString(7, usuario.getFechaNac());
 				s.setString(8, usuario.getCorreo());
 				s.setString(9, usuario.getDomicilio());
-				s.setString(10, clave);
+				s.setString(10, hashPassword(clave));
 
 				int filas = s.executeUpdate();
-				
-				
+
 				if (filas == 0) {
 					System.err.println("No se ha añadido ningún usuario");
 					status = -1;
-				}
-				else status = 1;
+				} else
+					status = 1;
 			}
-				
-			
 
 		} catch (Exception e) {
 			System.err.println("Error ejecutando la consulta a la base de datos");
 			System.err.println(e.getMessage());
 		}
 
-		return status; 
+		return status;
 	}
 
-	public int addPedido(PedidoBD pedido){
+	public int addPedido(PedidoBD pedido) {
 		abrirConexionBD();
 		int status = -1;
 
 		try {
+			conexionBD.setAutoCommit(false);
 			String con1 = "INSERT INTO pedidos (persona, fecha, importe, estado) VALUES (?,?,?,?)";
 			PreparedStatement s1 = conexionBD.prepareStatement(con1, Statement.RETURN_GENERATED_KEYS);
 			s1.setInt(1, pedido.getCodigo_usuario());
@@ -284,39 +307,84 @@ public final class AccesoBD {
 			ResultSet rs = s1.getGeneratedKeys();
 
 			if (filas == 0) {
-				System.err.println("No se ha añadido ningún pedido");
 				status = -1;
-			}
-			else {
+				throw new Exception("No se ha añadido ningún pedido");
+			} else {
 				// get the id of the pedido
 				rs.next();
 				pedido.setCodigo(rs.getInt(1));
+				status = rs.getInt(1); // return the id of the pedido
 
-				String con2 = "INSERT INTO detalle (codigo_pedido, codigo_producto, unidades, precio_unitario) VALUES (?,?,?,?)";
-				PreparedStatement s2 = conexionBD.prepareStatement(con2);
+				String con2 = "SELECT existencias FROM productos WHERE codigo=?";
+				PreparedStatement checkExist = conexionBD.prepareStatement(con2);
+
+				String con3 = "UPDATE productos SET existencias=? WHERE codigo=?";
+				PreparedStatement updateExist = conexionBD.prepareStatement(con3);
+
+				String con4 = "INSERT INTO detalle (codigo_pedido, codigo_producto, unidades, precio_unitario) VALUES (?,?,?,?)";
+				PreparedStatement insertDetalle = conexionBD.prepareStatement(con4);
+
+				// first check if the product exists in sufficient quantity
+
 				for (PedidoBD.DetallePedido detalle : pedido.getDetalle()) {
-					s2.setInt(1, pedido.getCodigo());
-					s2.setInt(2, detalle.getCodigo_producto());
-					s2.setInt(3, detalle.getCantidad());
-					s2.setFloat(4, detalle.getPrecio());
-					filas = s2.executeUpdate();
-					if (filas == 0) {
-						System.err.println("No se ha añadido un detalle");
-						return -1;
+					// check if the product exists in sufficient quantity
+					checkExist.setInt(1, detalle.getCodigo_producto());
+					ResultSet resultado = checkExist.executeQuery();
+					if (!resultado.next()) {
+						status = -1;
+						throw new Exception(
+								"No se ha encontrado el producto con código " + detalle.getCodigo_producto());
+					} else {
+						if (resultado.getInt("existencias") < detalle.getCantidad()) {
+							status = -3;
+							throw new Exception(
+									"No hay suficiente stock del producto con código " + detalle.getCodigo_producto());
+						} else {
+							updateExist.setInt(1, resultado.getInt("existencias") - detalle.getCantidad());
+							updateExist.setInt(2, detalle.getCodigo_producto());
+							filas = updateExist.executeUpdate();
+							if (filas == 0) {
+								status = -1;
+								throw new Exception("Error en la actualización del stock");
+							}
+
+							insertDetalle.setInt(1, pedido.getCodigo());
+							insertDetalle.setInt(2, detalle.getCodigo_producto());
+							insertDetalle.setInt(3, detalle.getCantidad());
+							insertDetalle.setFloat(4, detalle.getPrecio());
+							filas = insertDetalle.executeUpdate();
+							if (filas == 0) {
+								status = -1;
+								throw new Exception("Error en la inserción de un detalle");
+							}
+						}
 					}
-					else status = 1;
+
 				}
 			}
 
+			conexionBD.commit();
+
 		} catch (Exception e) {
+
 			System.err.println("Error ejecutando la consulta a la base de datos");
 			System.err.println(e.getMessage());
 			status = -1;
 		}
 
-		return status; 
+		if (status <= -1) {
+			try {
+				// roolback if there is an error or number of products is not enough or any
+				// other fail
+				conexionBD.rollback();
+			} catch (SQLException e) {
+				System.err.println("Error en el rollback");
+				System.err.println(e.getMessage());
+			}
+		}
+
+		return status;
 	}
-	
 
 	public List<PedidoBD> getAllPedidos(int codigo_usuario) {
 
@@ -328,7 +396,6 @@ public final class AccesoBD {
 			// first we will get all the pedidos of the user
 			String con1 = "SELECT ped.codigo, ped.fecha, ped.importe, es.descripcion AS estado, ped.estado AS codigo_estado FROM pedidos ped JOIN estados es ON ped.estado=es.codigo WHERE ped.persona=? ORDER BY ped.fecha DESC";
 
-
 			PreparedStatement s1 = conexionBD.prepareStatement(con1);
 			s1.setInt(1, codigo_usuario);
 			ResultSet resultado1 = s1.executeQuery();
@@ -338,14 +405,12 @@ public final class AccesoBD {
 			PreparedStatement s2 = conexionBD.prepareStatement(con2);
 			ResultSet resultado2;
 			PedidoBD pedido;
-			PedidoBD.DetallePedido detalle ;
-			int nombre_producto = 0 ;
+			PedidoBD.DetallePedido detalle;
+			int nombre_producto = 0;
 
-
-			while(resultado1.next()) {
-				System.out.println("codigo pedido: " + resultado1.getInt("codigo"));
+			while (resultado1.next()) {
 				pedido = new PedidoBD();
-				nombre_producto = 0 ;
+				nombre_producto = 0;
 				pedido.setCodigo(resultado1.getInt("codigo"));
 				pedido.setCodigo_estado(resultado1.getInt("codigo_estado"));
 				pedido.setFecha(resultado1.getString("fecha"));
@@ -355,7 +420,7 @@ public final class AccesoBD {
 				s2.setInt(1, pedido.getCodigo());
 				resultado2 = s2.executeQuery();
 
-				while(resultado2.next()) {
+				while (resultado2.next()) {
 					detalle = pedido.new DetallePedido();
 					detalle.setCantidad(resultado2.getInt("unidades"));
 					detalle.setPrecio(resultado2.getFloat("precio_unitario"));
@@ -365,19 +430,174 @@ public final class AccesoBD {
 					nombre_producto += detalle.getCantidad();
 				}
 				pedido.setNombre_producto(nombre_producto);
-	
+
 				pedidos.add(pedido);
 			}
-
-			
 
 		} catch (Exception e) {
 			System.err.println("Error ejecutando la consulta a la base de datos");
 			System.err.println(e);
 		}
 
-		return pedidos; 
+		return pedidos;
 	}
 
-	
+	public int addComContacto(String nombre, String correo, String apellido, String comentario) {
+		int status = -1;
+
+		abrirConexionBD();
+
+		try {
+			String consulta = "INSERT INTO com_contacto (nombre, correo, apellido, comentario) VALUES (?,?,?,?)";
+
+			// hay que tener en cuenta las columnas de la tabla de productos
+
+			PreparedStatement s = conexionBD.prepareStatement(consulta);
+
+			s.setString(1, nombre);
+			s.setString(2, correo);
+			s.setString(3, apellido);
+			s.setString(4, comentario);
+
+			int filas = s.executeUpdate();
+
+			if (filas == 0) {
+				status = -1;
+				throw new Exception("No se ha añadido ningún comentario");
+			} else
+				status = 1;
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+	public int addCard(CardBD card) {
+		int status = -1;
+
+		abrirConexionBD();
+
+		try {
+			String consulta = "INSERT INTO tarjeta_bancaria (card_number, persona, exp_date, cvv, card_name) VALUES (?,?,?,?,?)";
+			PreparedStatement s = conexionBD.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+
+			s.setString(1, card.getCard_number());
+			s.setInt(2, card.getPersona());
+			s.setString(3, card.getExp_date());
+			s.setString(4, card.getCvv());
+			s.setString(5, card.getCard_name());
+
+			int filas = s.executeUpdate();
+			if (filas == 0) {
+				status = -1;
+				throw new Exception("No se ha añadido ninguna tarjeta");
+			} else {
+				ResultSet rs = s.getGeneratedKeys();
+				rs.next();
+				status = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+	public List<CardBD> getAllCard(int persona) {
+		abrirConexionBD();
+
+		List<CardBD> cards = new ArrayList<>();
+		try {
+			String con = "SELECT * FROM tarjeta_bancaria WHERE persona=? ORDER BY codigo DESC";
+			PreparedStatement s = conexionBD.prepareStatement(con);
+			s.setInt(1, persona);
+			ResultSet resultado = s.executeQuery();
+			while (resultado.next()) {
+				CardBD card = new CardBD();
+				card.setCard_number(resultado.getString("card_number"));
+				card.setPersona(resultado.getInt("persona"));
+				card.setExp_date(resultado.getString("exp_date"));
+				card.setCvv(resultado.getString("cvv"));
+				card.setCard_name(resultado.getString("card_name"));
+				card.setCodigo(resultado.getInt("codigo"));
+
+				cards.add(card);
+			}
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+		}
+
+		return cards;
+	}
+
+	public int cancelarPedido(int id_pedido) {
+		int status = -1;
+
+		abrirConexionBD();
+
+		try {
+
+			// test if the pedido is in state 1 (preparing)
+			String con0 = "SELECT estado FROM pedidos WHERE codigo=?";
+			PreparedStatement s0 = conexionBD.prepareStatement(con0);
+			s0.setInt(1, id_pedido);
+			ResultSet resultado0 = s0.executeQuery();
+			if (!resultado0.next()) {
+				status = -2;
+				throw new Exception("No se ha encontrado el pedido con código " + id_pedido);
+			}
+
+			if (resultado0.getInt("estado") != 1) {
+				status = -3;
+				throw new Exception("El pedido no se puede cancelar porque no está en estado 'preparando'");
+
+			}
+
+			// put the command in state 4 (canceled)
+			String con = "UPDATE pedidos SET estado=4 WHERE codigo=?";
+			PreparedStatement s = conexionBD.prepareStatement(con);
+
+			s.setInt(1, id_pedido);
+
+			int filas = s.executeUpdate();
+			if (filas == 0) {
+				status = -4;
+				throw new Exception("No se ha cancelado ningún pedido");
+			} else
+				status = 1;
+
+			// put back all the products in stock
+			String con2 = "SELECT codigo_producto, unidades FROM detalle WHERE codigo_pedido=?";
+			PreparedStatement s2 = conexionBD.prepareStatement(con2);
+			s2.setInt(1, id_pedido);
+			ResultSet resultado = s2.executeQuery();
+
+			String con3 = "UPDATE productos SET existencias=existencias+? WHERE codigo=?";
+			PreparedStatement s3 = conexionBD.prepareStatement(con3);
+
+			while (resultado.next()) {
+				s3.setInt(1, resultado.getInt("unidades"));
+				s3.setInt(2, resultado.getInt("codigo_producto"));
+				filas = s3.executeUpdate();
+				if (filas == 0) {
+					status = -5;
+					throw new Exception("Error en la actualización del stock");
+				}
+			}
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+
+		}
+
+		return status;
+	}
+
 }

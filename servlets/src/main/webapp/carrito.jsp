@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Carrito</title>
     <script src="js/manage_cart.js"></script>
-    <script src="js/enviar_cart.js"></script>
     <script src="js/alert.js"></script>
 
 </head>
@@ -93,7 +92,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="d-grid col-8 mx-auto">
-                                <button type="button" class="btn btn-success btn-lg" onclick="EnviarCarrito();" id="btn_comprar">Pedir <span class="mx-2"> <i
+                                <button type="button" class="btn btn-success btn-lg" onclick="goToPayment();" id="btn_comprar">Pedir <span class="mx-2"> <i
                                             class="bi bi-box-seam" ></i></span></button>
                             </div>
                         </div>
@@ -105,6 +104,12 @@
     </section>
 
     <script src="./js/navbar_footer.js"></script>
+
+
+   <% if (session.getAttribute("nombre") != null) { %>
+    <script> updateNameUser("<%=session.getAttribute("nombre") %>") ; </script>
+    <% } %>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

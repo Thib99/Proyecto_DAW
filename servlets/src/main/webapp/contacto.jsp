@@ -1,13 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.List,tienda.*" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/alert.js"></script>
 
 <title>Contacto</title>
 </head>
 
 <body>
+
+    <%
+    String notif = (String)session.getAttribute("notification_msg");
+    String type = (String)session.getAttribute("notification_type");
+
+    if (notif != null) { 
+    %>
+    <%-- Eliminamos el mensaje consumido --%>
+    <%
+        session.removeAttribute("notification_msg");
+        session.removeAttribute("notification_type");
+    %>
+    
+    <script>
+        notificationALert('<%=notif%>', '<%=type%>') ;
+    </script>
+    <%
+    }
+    %>
 
     <section>
         <div class="container mt-5">
@@ -64,21 +86,21 @@
 
                     <p>Si tienes alguna duda, sugerencia o comentario, no dudes en ponerte en contacto con nosotros.</p>
                     
-                    <form action="/" method="POST">
+                    <form action="form/contacto" method="POST">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingNombre" placeholder="Password">
+                            <input type="text" class="form-control" id="floatingNombre" placeholder="Nombre" name="nombre" required>
                             <label for="floatingNombre">Nombre</label>
                         </div>
                         <div class="form-floating  mb-3">
-                            <input type="text" class="form-control" id="floatingApellido" placeholder="Password">
+                            <input type="text" class="form-control" id="floatingApellido" placeholder="apellido" name="apellido" required>
                             <label for="floatingApellido">Apellido</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="floatingMail" placeholder="name@example.com">
+                            <input type="email" class="form-control" id="floatingMail" placeholder="name@example.com" name="correo" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" >
                             <label for="floatingMail">Correo electronico</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" placeholder="describe el problemaaqui" id="floatingCom"
+                            <textarea class="form-control" placeholder="describe el problemaaqui" id="floatingCom" name="comentario" required
                             style="height: 100px"></textarea>
                             <label for="floatingCom">Describe el problema</label>
                         </div>
@@ -97,6 +119,11 @@
 
 
     <script src="./js/navbar_footer.js"></script>
+
+
+   <% if (session.getAttribute("nombre") != null) { %>
+    <script> updateNameUser("<%=session.getAttribute("nombre") %>") ; </script>
+    <% } %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -1,9 +1,5 @@
 function notificationALert(message, type, timeOfShow = 2) {
-  if (type === null || type === undefined) {
-    type = "info";
-  }
-
-
+ 
   // Create notification div
   var notificationDiv = document.createElement("div");
   notificationDiv.classList.add("notification");
@@ -27,17 +23,19 @@ function notificationALert(message, type, timeOfShow = 2) {
   // Create close button
   var closeButton = document.createElement("button");
   closeButton.setAttribute("type", "button");
-  closeButton.classList.add("close");
+  closeButton.classList.add("btn-close");
   closeButton.setAttribute("data-dismiss", "alert");
   closeButton.setAttribute("aria-label", "Close");
+
   // to remove notification
   closeButton.setAttribute('onclick', 'this.parentElement.parentElement.remove();');
 
-  var closeIcon = document.createElement("span");
-  closeIcon.setAttribute("aria-hidden", "true");
-  closeIcon.innerHTML = "&times;";
+  
 
   var icon = document.createElement("i");
+
+  // add spacer between icon and text
+  icon.classList.add("me-2");
   
   // set the icon and the color of the notification
   switch (type) {
@@ -52,7 +50,7 @@ function notificationALert(message, type, timeOfShow = 2) {
     case "secondary":
       alertDiv.classList.add("alert-secondary");
       break;
-    case "default":
+    default :
       alertDiv.classList.add("alert-primary");
       icon.classList.add("bi", "bi-info-circle");
       break;
@@ -62,7 +60,6 @@ function notificationALert(message, type, timeOfShow = 2) {
 
 
   // append all the elements
-  closeButton.appendChild(closeIcon);
   alertDiv.appendChild(icon);
   alertDiv.appendChild(notificationText);
   alertDiv.appendChild(closeButton);

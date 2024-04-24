@@ -18,7 +18,7 @@ public class NuevoPedido extends HttpServlet {
             throws ServletException, IOException {
         
 
-        System.out.println("\nNuevo pedido\n");        
+            
         PedidoBD pedido = new PedidoBD();
 
         JsonReader jsonReader = Json.createReader(
@@ -31,13 +31,12 @@ public class NuevoPedido extends HttpServlet {
         pedido.setCodigo_usuario((int) session.getAttribute("usuario"));
         pedido.setCodigo_estado(1); // 1 = preparando
         
-        System.out.println("plusloin");
+        
 
-        System.out.println(jobj.toString());
+        
         // calculate precio
         float precioTotal = 0;
 
-        System.out.println("Productos: " + jobj.size());
 
         for (int i = 0; i < jobj.size(); i++) {
             try {
@@ -45,33 +44,54 @@ public class NuevoPedido extends HttpServlet {
                 JsonObject prod = jobj.getJsonObject(i);
                 DetallePedido detalle = pedido.new DetallePedido();
                 detalle.setPrecio(Float.parseFloat(prod.get("precio").toString()));
-                detalle.setCantidad(Integer.parseInt(prod.get("cantidad").toString()));
-                detalle.setCodigo_producto(Integer.parseInt(prod.get("codigo").toString()));
+                detalle.setCantidad(prod.getInt("cantidad"));
+                detalle.setCodigo_producto(prod.getInt("codigo"));
                 pedido.getDetalle().add(detalle);
     
                 precioTotal += detalle.getPrecio() * detalle.getCantidad();
     
             } catch (Exception e) {
                 System.err.println(e.getMessage());
+
             }
         }
-        System.out.println("Precio total: " + precioTotal);
         pedido.setPrecio(precioTotal); // set precio total
 
         AccesoBD con = AccesoBD.getInstance();
 
         int status = con.addPedido(pedido);
 
-        if (status == 1) {
-            session.setAttribute("notification_msg", "Pedido realizado correctamente");
-            session.setAttribute("notification_type", "success");
-        } else {
-            session.setAttribute("notification_msg", "Error al realizar el pedido");
-            session.setAttribute("notification_type", "danger");
+        // Create a Json Object
+        JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+
+        if (status >=1){
+            jsonBuilder.add("id_pedido", status);
+        }else if (status == -3){
+            jsonBuilder.add("error", "No hay suficiente stock");
+        }else{
+            jsonBuilder.add("error", "Error al realizar el pedido");
         }
+        
 
-        // String url = request.getContextPath() + "/carrito.jsp";
-        //response.sendRedirect(url);
+        JsonObject json = jsonBuilder.build();
 
+        // Set content type to application/json
+        response.setContentType("application/json");
+
+        // Write JSON to the response
+        response.getWriter().write(json.toString());
+
+        // plutot transformer en reponse pour ajax  
+        // if (status == 1) {
+        //     session.setAttribute("notification_msg", "Pedido realizado correctamente");
+        //     session.setAttribute("notification_type", "success");
+        // }else if (status == -3) {
+        //     session.setAttribute("notification_msg", "Error al realizar el pedido, no hay suficiente stock");
+        //     session.setAttribute("notification_type", "danger");
+        // } 
+        // else {
+        //     session.setAttribute("notification_msg", "Error al realizar el pedido");
+        //     session.setAttribute("notification_type", "danger");
+        // }
     }
 }

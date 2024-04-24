@@ -19,8 +19,27 @@
     %>
         
 
-            <div class="container mx-auto my-3">
-                <div class="row gx-2 gy-3">
+    <div class="container mx-auto my-3">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="producto.jsp">Productos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Type</li>
+        </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-2 offset-10">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Todos</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row gx-2 gy-3">
+
 
     <% for (int i = 0 ; i < productos.size() ; i++){ 
         ProductoBD producto = productos.get(i);
@@ -121,6 +140,10 @@
     </nav>
 
     <script src="./js/navbar_footer.js"></script>
+
+    <% if (session.getAttribute("nombre") != null) { %>
+    <script> updateNameUser("<%=session.getAttribute("nombre") %>") ; </script>
+    <% } %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

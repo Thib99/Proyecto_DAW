@@ -1,17 +1,25 @@
 package tienda;
 
 public class UsuarioBD {
+    int codigo ;
     String nombre ;
     String apellidos ;
-
+    
     String correo ;
     String fechaNac ;
     String telefono ;
-
+    
     String domicilio ;
     String poblacion ;
     String cp ;
     String pais ;
+    
+    public int getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
     
     public String getDomicilio() {
         return domicilio;
