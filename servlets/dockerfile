@@ -1,9 +1,11 @@
+# build the maven project
 FROM maven:3-jdk-11 as builder
 RUN mkdir -p /build
 COPY . /build
 WORKDIR /build
 RUN mvn clean compile package
 
+# copy all the output files to the tomcat server
 FROM tomcat:7.0
 COPY --from=builder /build/target /tom/target
 WORKDIR /tom/target
