@@ -43,7 +43,7 @@
 
                     <div class="card my-3 mx-3">
                         <div class="card-header">
-                            <h2><u> Caritto </u></h2>
+                            <h2><u> Carrito </u></h2>
                         </div>
                         <div class="card-body" id="body_carrito_display">
 
