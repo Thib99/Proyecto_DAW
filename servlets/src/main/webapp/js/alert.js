@@ -50,6 +50,11 @@ function notificationALert(message, type, timeOfShow = 2) {
     case "secondary":
       alertDiv.classList.add("alert-secondary");
       break;
+
+    case "warning":
+      alertDiv.classList.add("alert-warning");
+      icon.classList.add("bi", "bi-exclamation-triangle");
+      break;
     default :
       alertDiv.classList.add("alert-primary");
       icon.classList.add("bi", "bi-info-circle");

@@ -401,7 +401,7 @@ public final class AccesoBD {
 			ResultSet resultado1 = s1.executeQuery();
 
 			// then we will get all the details of each pedido
-			String con2 = "SELECT det.unidades, det.precio_unitario, prod.descripcion FROM detalle det JOIN productos prod ON det.codigo_producto=prod.codigo WHERE det.codigo_pedido=?";
+			String con2 = "SELECT det.unidades, det.precio_unitario, prod.descripcion, prod.codigo FROM detalle det JOIN productos prod ON det.codigo_producto=prod.codigo WHERE det.codigo_pedido=?";
 			PreparedStatement s2 = conexionBD.prepareStatement(con2);
 			ResultSet resultado2;
 			PedidoBD pedido;
@@ -425,6 +425,7 @@ public final class AccesoBD {
 					detalle.setCantidad(resultado2.getInt("unidades"));
 					detalle.setPrecio(resultado2.getFloat("precio_unitario"));
 					detalle.setNombre_producto(resultado2.getString("descripcion"));
+					detalle.setCodigo_producto(resultado2.getInt("codigo"));
 					pedido.getDetalle().add(detalle);
 
 					nombre_producto += detalle.getCantidad();
@@ -594,10 +595,145 @@ public final class AccesoBD {
 		} catch (Exception e) {
 			System.err.println("Error ejecutando la consulta a la base de datos");
 			System.err.println(e.getMessage());
+			status = -1;
+		}
+
+		return status;
+	}
+
+	public int deleteTarjeta(int id_card){
+		int status = -1;
+
+		abrirConexionBD();
+
+		try {
+
+			String con = "DELETE FROM tarjeta_bancaria WHERE codigo=?";
+
+			PreparedStatement s = conexionBD.prepareStatement(con);
+
+			s.setInt(1, id_card);
+
+			int filas = s.executeUpdate();
+
+			if (filas == 0) {
+				status = -1;
+				throw new Exception("No se ha eliminado ninguna tarjeta");
+			} else
+				status = 1;
+		
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+			status = -1;
 
 		}
 
 		return status;
+	}
+
+	public List<ProductoBD> getProductos(List<Integer> id_productos) {
+		List<ProductoBD> productos = new ArrayList<>();
+		abrirConexionBD();
+
+		try {
+			String con = "SELECT codigo,descripcion,precio,existencias,imagen1 FROM productos WHERE codigo=?";
+			PreparedStatement s = conexionBD.prepareStatement(con);
+
+			for (int id : id_productos) {
+				s.setInt(1, id);
+				ResultSet resultado = s.executeQuery();
+				if (resultado.next()) {
+					ProductoBD producto = new ProductoBD();
+					producto.setCodigo(resultado.getInt("codigo"));
+					producto.setDescripcion(resultado.getString("descripcion"));
+					producto.setPrecio(resultado.getFloat("precio"));
+					producto.setStock(resultado.getInt("existencias"));
+					producto.setImagen1(resultado.getString("imagen1"));
+					productos.add(producto);
+				}
+				
+			}
+
+			
+		
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+			productos = null;
+
+		}
+
+		return productos;
+	}
+
+
+	public List<String> getAllCategoria(){
+		List<String> categorias = new ArrayList<>();
+		abrirConexionBD();
+
+		try {
+			String con = "SELECT DISTINCT categoria, codigo FROM categorias_productos ORDER BY codigo DESC";
+			PreparedStatement s = conexionBD.prepareStatement(con);
+
+			ResultSet resultado = s.executeQuery();
+
+			while (resultado.next()) {
+				categorias.add(resultado.getString("categoria"));
+			}
+
+			
+		
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+			categorias = null;
+
+		}
+
+		return categorias;
+	
+	}
+
+	public List<ProductoBD> obtenerProductosBD(String categoria){
+		List<ProductoBD> productos = new ArrayList<>();
+		abrirConexionBD();
+
+		try {
+			String con = "SELECT * FROM productos WHERE categoria=(SELECT codigo FROM categorias_productos WHERE categoria=?)";
+			
+			PreparedStatement s = conexionBD.prepareStatement(con);
+			s.setString(1, categoria);
+
+			ResultSet resultado = s.executeQuery();
+
+			while (resultado.next()) {
+				ProductoBD producto = new ProductoBD();
+				producto.setCodigo(resultado.getInt("codigo"));
+				producto.setDescripcion(resultado.getString("descripcion"));
+				producto.setPrecio(resultado.getFloat("precio"));
+				producto.setStock(resultado.getInt("existencias"));
+				producto.setImagen1(resultado.getString("imagen1"));
+				producto.setImagen2(resultado.getString("imagen2"));
+				producto.setImagen3(resultado.getString("imagen3"));
+				productos.add(producto);
+			}
+
+			
+		
+
+		} catch (Exception e) {
+			System.err.println("Error ejecutando la consulta a la base de datos");
+			System.err.println(e.getMessage());
+			productos = null;
+
+		}
+
+		return productos;
+	
 	}
 
 }

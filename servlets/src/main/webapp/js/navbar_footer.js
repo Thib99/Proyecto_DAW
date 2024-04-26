@@ -87,7 +87,7 @@ function createHeaderAndFooter() {
                             </li>
                             
                             <li class="mt-1">
-                                <a href="contacto.html"> <p>Más información</p></a>
+                                <a href="contacto.jsp"> <p>Más información</p></a>
                             </li>
                             
                         </ul>

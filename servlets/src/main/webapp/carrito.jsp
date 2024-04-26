@@ -92,7 +92,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="d-grid col-8 mx-auto">
-                                <button type="button" class="btn btn-success btn-lg" onclick="goToPayment();" id="btn_comprar">Pedir <span class="mx-2"> <i
+                                <button type="button" class="btn btn-success btn-lg" onclick="getProductInfo();" id="btn_comprar">Pedir <span class="mx-2"> <i
                                             class="bi bi-box-seam" ></i></span></button>
                             </div>
                         </div>

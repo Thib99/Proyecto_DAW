@@ -19,9 +19,8 @@
     <!-- <link rel="stylesheet" href="css/usario.css"> -->
     <script src="./js/navbar_footer.js"></script>
     <script src="./js/usuario.js"></script>
+    <script src="./js/manage_cart.js"></script>
     <script src="./js/alert.js"></script>
-
-
 </head>
 
 <body>
@@ -56,6 +55,9 @@
                             </li>
                             <li class=" nav-item">
                                     <a class="nav-link"  onclick="change_data_card('pedidos')">Mis pedidos</a>
+                            </li>
+                            <li class=" nav-item">
+                                    <a class="nav-link"  onclick="change_data_card('tarjetas')">Mis tarjetas</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" onclick="change_data_card('contrasena')">Cambiar contraseña</a>
@@ -123,7 +125,7 @@
                                 <input type="number" class="form-control-plaintext px-1 mx-2" id="cp" name="cp" readonly value="<%= usuario.getCp() %>">
                             </div>
                             <div class="col-md-4">
-                                <label for="pais" class="form-label"><b>Provincia: </b></label>
+                                <label for="pais" class="form-label"><b>Pais: </b></label>
                                 <input type="text" class="form-control-plaintext px-1 mx-2" id="pais" name="pais" readonly value="<%= usuario.getPais() %>">
 
                             </div>
@@ -184,10 +186,9 @@
                                                         <button type="submit" class="btn btn-danger">Cancelar pedido <i class="bi bi-trash"></i> </button>
                                                     </form>
                                                 <% }else { %>
-                                                    <form action="form/recomendarpedido" method="GET">
-                                                        <input type="hidden" name="id_pedido" value="<%= pedido.getCodigo() %>">
-                                                        <button type="submit" class="btn btn-success">Volver a recomendar <i class="bi bi-arrow-repeat"></i> </button>
-                                                    </form>
+                                                        <button type="button" class="btn btn-success" onclick="pedir_de_nuevo(<%= pedido.getCodigo() %>, this);">Volver a recomendar <i class="bi bi-arrow-repeat"></i> 
+                                                        
+                                                        </button>
                                                 <% } %>
                                             </div>
                                         </div>
@@ -195,7 +196,7 @@
 
                                         <div class="table-responsive">
 
-                                            <table class="table table-bordered w-100 text-center">
+                                            <table class="table table-bordered w-100 text-center" id="table_<%= pedido.getCodigo() %>">
                                                 <tr>
                                                     <th>Producto</th>
                                                     <th>Precio unitario</th>
@@ -204,12 +205,11 @@
                                                 </tr>
                                                 <% for(PedidoBD.DetallePedido detalle : pedido.getDetalle()){ %>
                                                 <tr>
+                                                    <td class="d-none"><%= detalle.getCodigo_producto() %></td>
                                                     <td><%= detalle.getNombre_producto() %></td>
                                                     <td><%= detalle.getPrecio() %></td>
                                                     <td><%= detalle.getCantidad() %></td>
                                                     <td><%= detalle.getCantidad()* detalle.getPrecio() %></td>
-                                                    
-                                                    
                                                 </tr>
                                                 <% } %>
                                             </table>
@@ -224,6 +224,38 @@
                         </div>
                 
 
+                        </section>
+
+                        <section id="tarjetas">
+                           <%
+                            List<CardBD> cards = con.getAllCard((int)session.getAttribute("usuario"));
+                            %>
+                            <% if (cards.size() == 0) { %>
+                                <p class="text-center"> No hay ninguna tarjeta registrada ! </p>
+                            <% }else{ %>
+                                <ol class="list-group list-group-numbered">
+                            
+                                <% for (int i = 0 ; i < cards.size() ; i++) { 
+                                    CardBD card = cards.get(i);
+                                    boolean boolean_first = (i==0) ;
+                                    String id = "accordion_"+i;
+                                %>
+
+                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                        <div class="fw-bold"><%= card.getCard_name() +" | " + card.getCard_number_masked() %></div>
+                                        Caducidad : <%= card.getExp_date() %>
+                                        </div>
+                                        <span class="badge bg-danger rounded-pill">
+                                            <form action="form/eliminartarjeta" method="GET">
+                                                <input type="hidden" name="id_card" value="<%= card.getCodigo() %>">
+                                                <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                            </form>
+                                        </span>
+                                    </li>
+                                <% } %>
+                                </ol>
+                            <% } %>
                         </section>
 
                         <section id="cambiar_contrasena">
@@ -250,12 +282,12 @@
                                                 <label for="password">Contraseña anteriore</label>
                                             </div>
                                             <div class="form-floating mb-3 mx-2">
-                                                <input type="password" class="form-control" id="password_nueva_1" name="password_nueva_1"
+                                                <input type="password" class="form-control" id="password_nueva_1" name="password_nueva_1" pattern="^(?=.*[A-Z])(?=.*\d).{6,}$"
                                                     placeholder="Contraseña" required>
                                                 <label for="password_nueva_1">Nueva contraseña</label>
                                             </div>
                                             <div class="form-floating mb-3 mx-2">
-                                                <input type="password" class="form-control" id="password_nueva_2" name="password_nueva_2"
+                                                <input type="password" class="form-control" id="password_nueva_2" name="password_nueva_2" 
                                                     placeholder="Contraseña" required>
                                                 <label for="password_nueva_2">Reescribir la nueva contraseña</label>
                                             </div>
@@ -268,9 +300,7 @@
                             </div>
                         </section>
 
-                        <section id="mis_tarjetas">
-                            
-                        </section>
+                        
 
                     </div>
                 </div>
@@ -280,6 +310,9 @@
         </div>
 
     </div>
+
+    
+
 
    <% if (session.getAttribute("nombre") != null) { %>
     <script> updateNameUser("<%=session.getAttribute("nombre") %>") ; </script>

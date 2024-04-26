@@ -93,14 +93,26 @@
     <url-pattern>/form/nuevatarjeta</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
 
+ 
+
   <servlet>
-    <servlet-name>Connected</servlet-name>
-    <servlet-class>api.Connected</servlet-class>
+    <servlet-name>EliminarTarjeta</servlet-name>
+    <servlet-class>form.EliminarTarjeta</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>Connected</servlet-name>
-    <url-pattern>/api/connected</url-pattern> <!-- Adjust the URL pattern as needed -->
+    <servlet-name>EliminarTarjeta</servlet-name>
+    <url-pattern>/form/eliminartarjeta</url-pattern> <!-- Adjust the URL pattern as needed -->
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ObtenerProductos</servlet-name>
+    <servlet-class>api.ObtenerProductos</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ObtenerProductos</servlet-name>
+    <url-pattern>/api/obtenerproductos</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
   
  

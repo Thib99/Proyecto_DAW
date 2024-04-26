@@ -15,31 +15,46 @@
 <body>
     <%
 	AccesoBD con=AccesoBD.getInstance();
-	List<ProductoBD> productos = con.obtenerProductosBD();
+    List<String> categorias = con.getAllCategoria();
+    List<ProductoBD> productos ;
+    String categoria = request.getParameter("categoria");
+    if (categoria != null && !categoria.equals("todos")){
+        productos = con.obtenerProductosBD(categoria);
+    }else{
+        productos = con.obtenerProductosBD();
+    }
+
+
     %>
+    
+        <div class="m-4">
+
+            <form method="GET" action="producto.jsp">
+                <label for="categoria">Categoría:</label>
+                <select name="categoria" id="categoria" onchange="this.form.submit();">
+                    <option value="todos" selected>Todos</option>
+                    <% for (int i = 0 ; i < categorias.size() ; i++){
+                        if (categoria != null && categoria.equals(categorias.get(i))){ %>
+                            <option value="<%= categorias.get(i) %>" selected ><%= categorias.get(i) %></option>
+                    <% }else{ %>
+                            <option value="<%= categorias.get(i) %>" ><%= categorias.get(i) %></option>
+                    <% }
+                    } %>
+                </select>
+            </form>
+        </div>
+    <div class="container mx-auto my-3">
         
 
-    <div class="container mx-auto my-3">
-        <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="producto.jsp">Productos</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Type</li>
-        </ol>
-        </nav>
-
-        <div class="row">
-            <div class="col-md-2 offset-10">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Todos</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-        </div>
+        
 
         <div class="row gx-2 gy-3">
 
+    <% if (productos.size() == 0){ %>
+        <div>
+            <h1 class="text-center">No hay productos en esta categoría</h1>
+        </div>
+    <% } %>
 
     <% for (int i = 0 ; i < productos.size() ; i++){ 
         ProductoBD producto = productos.get(i);
@@ -116,28 +131,7 @@
         </div>
     </div>
             
-    <!-- Pagina -->
-    <nav class="mt-3">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    
 
     <script src="./js/navbar_footer.js"></script>
 
