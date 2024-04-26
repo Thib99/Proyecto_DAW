@@ -2,7 +2,7 @@
 
 Por Thibault Poux
 
-## Una aplicación web en JSP, serverlts y PHP
+## Una aplicación web en JSP, Servlets y PHP
 
 ---
 
