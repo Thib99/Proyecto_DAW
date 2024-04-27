@@ -15,14 +15,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import tienda.AccesoBD;
 import tienda.ProductoBD;
 
 public class ObtenerProductos extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        HttpSession session = request.getSession(true);
 
 
         AccesoBD con = AccesoBD.getInstance();
