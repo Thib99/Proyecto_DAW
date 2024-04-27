@@ -56,7 +56,7 @@ CREATE TABLE `com_contacto` (
   `comentario` varchar(1000) NOT NULL,
   `fecha` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,6 +90,25 @@ CREATE TABLE `detalle` (
 --
 
 /*!40000 ALTER TABLE `detalle` DISABLE KEYS */;
+INSERT INTO `detalle` VALUES
+(1,1,2,10.00),
+(1,2,12,20.00),
+(1,3,9,30.00),
+(1,8,2,80.00),
+(1,14,2,140.00),
+(2,8,1,80.00),
+(2,10,1,100.00),
+(2,11,1,110.00),
+(3,6,1,60.00),
+(3,7,2,70.00),
+(3,9,1,90.00),
+(3,14,1,140.00),
+(3,15,1,150.00),
+(4,1,1,10.00),
+(5,5,1,50.00),
+(5,6,1,60.00),
+(5,7,1,70.00),
+(5,8,1,80.00);
 /*!40000 ALTER TABLE `detalle` ENABLE KEYS */;
 
 --
@@ -136,7 +155,7 @@ CREATE TABLE `pedidos` (
   KEY `enestado` (`estado`),
   CONSTRAINT `enestado` FOREIGN KEY (`estado`) REFERENCES `estados` (`codigo`),
   CONSTRAINT `pedidopor` FOREIGN KEY (`persona`) REFERENCES `usuarios` (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,6 +163,12 @@ CREATE TABLE `pedidos` (
 --
 
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
+INSERT INTO `pedidos` VALUES
+(1,1,'2024-04-27 17:59:50',970.00,2),
+(2,1,'2024-04-27 18:00:33',290.00,1),
+(3,2,'2024-04-27 18:03:13',580.00,3),
+(4,2,'2024-04-27 18:03:43',10.00,4),
+(5,2,'2024-04-27 18:03:55',260.00,1);
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 
 --
@@ -173,21 +198,21 @@ CREATE TABLE `productos` (
 
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
 INSERT INTO `productos` VALUES
-(1,'Dinosaurio',10.00,10,'1/1.jpg','1/2.jpg','1/3.jpg',4),
-(2,'Oso',20.00,23,'2/1.jpg','2/2.jpg','2/3.jpg',4),
-(3,'Pollito',30.00,9,'3/1.jpg','3/2.jpg','3/3.jpg',4),
+(1,'Dinosaurio',10.00,7,'1/1.jpg','1/2.jpg','1/3.jpg',4),
+(2,'Oso',20.00,11,'2/1.jpg','2/2.jpg','2/3.jpg',4),
+(3,'Pollito',30.00,2,'3/1.jpg','3/2.jpg','3/3.jpg',4),
 (4,'La boca',40.00,0,'4/1.jpg','4/2.jpg','4/3.jpg',1),
-(5,'IDK_5',50.00,12,'5/1.jpg','5/2.jpg','5/3.jpg',1),
-(6,'Vidrio',60.00,100,'6/1.jpg','6/2.jpg','6/3.jpg',1),
-(7,'Billar',70.00,45,'7/1.jpg','7/2.jpg','7/3.jpg',1),
-(8,'Maya',80.00,34,'8/1.jpg','8/2.jpg','8/3.jpg',1),
-(9,'IDK_9',90.00,98,'9/1.jpg','9/2.jpg','9/3.jpg',3),
-(10,'IDK_10',100.00,19,'10/1.jpg','10/2.jpg','10/3.jpg',2),
-(11,'IDK_11',110.00,34,'11/1.jpg','11/2.jpg','11/3.jpg',2),
-(12,'IDK_12',120.00,23,'12/1.jpg','12/2.jpg','12/3.jpg',3),
-(13,'IDK_13',130.00,16,'13/1.jpg','13/2.jpg','13/3.jpg',2),
-(14,'IDK_14',140.00,25,'14/1.jpg','14/2.jpg','14/3.jpg',3),
-(15,'IDK_15',150.00,39,'15/1.jpg','15/2.jpg','15/3.jpg',3);
+(5,'Jean-Mi',50.00,11,'5/1.jpg','5/2.jpg','5/3.jpg',1),
+(6,'Vidrio',60.00,98,'6/1.jpg','6/2.jpg','6/3.jpg',1),
+(7,'Billar',70.00,42,'7/1.jpg','7/2.jpg','7/3.jpg',1),
+(8,'Maya',80.00,30,'8/1.jpg','8/2.jpg','8/3.jpg',1),
+(9,'Lucas',90.00,97,'9/1.jpg','9/2.jpg','9/3.jpg',3),
+(10,'Rachid',100.00,18,'10/1.jpg','10/2.jpg','10/3.jpg',2),
+(11,'Gertrude',110.00,33,'11/1.jpg','11/2.jpg','11/3.jpg',2),
+(12,'Casino',120.00,23,'12/1.jpg','12/2.jpg','12/3.jpg',3),
+(13,'Thé',130.00,16,'13/1.jpg','13/2.jpg','13/3.jpg',2),
+(14,'Basurita',140.00,22,'14/1.jpg','14/2.jpg','14/3.jpg',3),
+(15,'Buzón',150.00,38,'15/1.jpg','15/2.jpg','15/3.jpg',3);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
 --
@@ -271,4 +296,4 @@ INSERT INTO `usuarios` VALUES
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-27 17:28:37
+-- Dump completed on 2024-04-27 20:20:10
