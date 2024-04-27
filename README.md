@@ -10,12 +10,12 @@ Por Thibault Poux
 
 * Pierre Dupond :
 
-    **Usuario:** pierre.dupond@gmail.com  
+    **Usuario:** pierre.dupond@gmail.com
     **Contraseña:** Azerty1
 
 * Juan Garcia :
 
-    **Usuario:** juan.garcia@digi.es  
+    **Usuario:** juan.garcia@digi.es
     **Contraseña:** MisContrasena2
 
 ### Información:
