@@ -1,6 +1,6 @@
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app>
+<web-app> 
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
@@ -62,16 +62,18 @@
     <servlet-name>NuevoPedido</servlet-name>
     <url-pattern>/form/NuevoPedido</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
-  
+
   <servlet>
     <servlet-name>Contacto</servlet-name>
     <servlet-class>form.Contacto</servlet-class>
   </servlet>
 
+ 
   <servlet-mapping>
     <servlet-name>Contacto</servlet-name>
-    <url-pattern>/form/contacto</url-pattern> Adjust the URL pattern as needed
+    <url-pattern>/form/contacto</url-pattern> <!-- Adjust the URL pattern as needed -->
   </servlet-mapping>
+  
 
   <servlet>
     <servlet-name>CancelarPedido</servlet-name>

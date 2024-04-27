@@ -1,10 +1,15 @@
 package tienda;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class AccesoBD {
 	private static AccesoBD instanciaUnica = null;
@@ -25,7 +30,7 @@ public final class AccesoBD {
 		if (conexionBD == null) {
 			String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
 			// daw es el nombre de la base de datos que hemos creado con anterioridad.
-			String DB_URL = "jdbc:mariadb://localhost:3306/daw";
+			String DB_URL = "jdbc:mariadb://db:3306/daw";
 			// El usuario root y su clave son los que se puso al instalar MariaDB.
 			String USER = "root";
 			String PASS = "root";
@@ -37,6 +42,7 @@ public final class AccesoBD {
 				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
+
 		}
 	}
 

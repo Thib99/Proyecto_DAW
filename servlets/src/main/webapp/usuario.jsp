@@ -68,7 +68,7 @@
                         <section id="datos">
                         <%
                         AccesoBD con=AccesoBD.getInstance();
-	                    UsuarioBD usuario = con.obtenerUsuarioBD( (int)session.getAttribute("usuario")); ;
+	                    UsuarioBD usuario = con.obtenerUsuarioBD( Integer.parseInt((String)session.getAttribute("usuario"))) ;
                         %>
                         <div class="container p-4">
                         
@@ -151,7 +151,7 @@
 
                     <section id="pedidos">
                         <%
-                        List<PedidoBD> pedidos = con.getAllPedidos((int)session.getAttribute("usuario"));
+                        List<PedidoBD> pedidos = con.getAllPedidos(Integer.parseInt((String)session.getAttribute("usuario")));
                         %>
                         <div class="container">
                         <div class="accordion" id="accordion_div">
@@ -228,7 +228,7 @@
 
                         <section id="tarjetas">
                            <%
-                            List<CardBD> cards = con.getAllCard((int)session.getAttribute("usuario"));
+                            List<CardBD> cards = con.getAllCard(Integer.parseInt((String)session.getAttribute("usuario")));
                             %>
                             <% if (cards.size() == 0) { %>
                                 <p class="text-center"> No hay ninguna tarjeta registrada ! </p>
