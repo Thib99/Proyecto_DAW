@@ -430,7 +430,6 @@ public final class AccesoBD {
 				pedido.setFecha(resultado1.getString("fecha"));
 				pedido.setPrecio(resultado1.getFloat("importe"));
 				pedido.setEstado(resultado1.getString("estado"));
-
 				s2.setInt(1, pedido.getCodigo());
 				resultado2 = s2.executeQuery();
 

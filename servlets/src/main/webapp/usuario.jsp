@@ -151,7 +151,7 @@
 
                     <section id="pedidos">
                         <%
-                        List<PedidoBD> pedidos = con.getAllPedidos(((int)session.getAttribute("usuario")));
+                        List<PedidoBD> pedidos = con.getAllPedidos( (int)session.getAttribute("usuario") );
                         %>
                         <div class="container">
                         <div class="accordion" id="accordion_div">
