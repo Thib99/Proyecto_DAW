@@ -29,8 +29,16 @@ public final class AccesoBD {
 	public void abrirConexionBD() {
 		if (conexionBD == null) {
 			String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
+			
+			// if the environment variable DB_HOST is set, it means that this project is running in a docker container
+			String DB_HOST = System.getenv("DB_HOST");
+			if (DB_HOST == null) {
+				// else we are running in localhost
+				DB_HOST = "localhost";
+			}
+
 			// daw es el nombre de la base de datos que hemos creado con anterioridad.
-			String DB_URL = "jdbc:mariadb://db:3306/daw";
+			String DB_URL = "jdbc:mariadb://"+DB_HOST+":3306/daw";
 			// El usuario root y su clave son los que se puso al instalar MariaDB.
 			String USER = "root";
 			String PASS = "root";
