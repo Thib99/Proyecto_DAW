@@ -56,7 +56,7 @@ CREATE TABLE `com_contacto` (
   `comentario` varchar(1000) NOT NULL,
   `fecha` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,6 +64,8 @@ CREATE TABLE `com_contacto` (
 --
 
 /*!40000 ALTER TABLE `com_contacto` DISABLE KEYS */;
+INSERT INTO `com_contacto` VALUES
+(2,'Pierre','Dupond','my@digit.es','La tienda es genial !!!!!','2024-04-27 20:32:48');
 /*!40000 ALTER TABLE `com_contacto` ENABLE KEYS */;
 
 --
@@ -296,4 +298,4 @@ INSERT INTO `usuarios` VALUES
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-27 20:20:10
+-- Dump completed on 2024-04-27 22:33:04
