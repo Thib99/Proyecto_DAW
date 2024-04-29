@@ -27,6 +27,7 @@
 
     %>
     
+    <div class="container mx-auto my-3">
         <div class="m-4">
 
             <form method="GET" action="producto.jsp">
@@ -43,7 +44,6 @@
                 </select>
             </form>
         </div>
-    <div class="container mx-auto my-3">
         
 
         
