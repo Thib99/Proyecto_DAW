@@ -12,7 +12,7 @@
 
   <name>servlets Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://192.168.1.43:8080</url>
+  <url>http://localhost:8080/servlets</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
