@@ -24,7 +24,7 @@ session_start_if_not();
                 <div class="shadow p-3 mb-5 bg-white rounded">
                     <h2>Iniciar seción</h2>
                     <br>
-                    <form action="/form/probarConexion.php" method="POST" class="mb-2">
+                    <form action="form/probarConexion.php" method="POST" class="mb-2">
                         <?php
                         $url = filter_input(INPUT_GET, 'url');
                         if ($url) {
@@ -43,7 +43,7 @@ session_start_if_not();
                         </div>
                         <?php 
                             if (isset($_SESSION['error_con']) && $_SESSION['error_con']) {
-                                echo '<p class="text-center">' . $_SESSION['error_con'] . '</p>';
+                                echo '<p class="text-center"><i class="bi bi-exclamation-triangle m-1"></i>' . $_SESSION['error_con'] . '</p>';
                                 unset($_SESSION['error_con']);
                             }
                         ?>

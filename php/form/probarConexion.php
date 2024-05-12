@@ -20,7 +20,7 @@
                 header('Location: ../productos.php');
             }
         }else {
-            $_SESSION['error_con'] =  "Usuario o contraseña incorrectos";
+            $_SESSION['error_con'] =  "Usuario o contraseña incorrectos !";
             header('Location: ../conexion.php');
         }
 

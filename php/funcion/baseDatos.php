@@ -1,10 +1,14 @@
 <?php
 function conectar() {
     $bbdd = mysqli_connect("localhost","root","root","daw");
+    
     if (mysqli_connect_error()) {
        printf("Error conectando a la base de datos: %s\n",mysqli_connect_error());
        exit();
     }
+    $bbdd->set_charset("utf8mb4");  //set charset to utf8, to be able to store and read special characters
+
+    setlocale(LC_ALL,"es_ES@euro","es_ES","esp"); // set locale to spanish so we can use spanish names for days and months
     return $bbdd;
 }
  

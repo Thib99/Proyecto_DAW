@@ -59,19 +59,19 @@
                     </td>
                     <td><input type="text" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="nombre"
                             name="nombre" disabled value="<?php echo $fila[1];?>"></td>
-                    <td><input type="tel" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="tel" name="tel"
+                    <td><input type="tel" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="tel" name="tel" pattern="\d{9}"
                             disabled value="<?php echo $fila[2];?>"></td>
                     <td><input type="date" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="fecha_nac"
                             name="fecha_nac" disabled value="<?php echo $fila[3];?>"></td>
                     <td><input type="email" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="email"
-                            name="email" disabled value="<?php echo $fila[4];?>"></td>
+                            name="email" disabled value="<?php echo $fila[4];?>" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"></td>
                     <td><input type="text" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="calle" disabled
                             name="calle" placeholder="Av. Peris, 43" value="<?php echo $fila[5];?>"></td>
                     <td><input type="text" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="ciudad" disabled
                             name="ciudad" value="<?php echo $fila[6];?>">
                     </td>
                     <td><input type="text" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="cp" name="cp" disabled
-                            value="<?php echo $fila[7];?>">
+                            value="<?php echo $fila[7];?>" pattern="\d{5}">
                     </td>
                     <td><input type="text" class="form-control-plaintext text-white" form="<?php echo $id_form ?>" id="pais" disabled
                             name="pais" value="<?php echo $fila[8];?>">
@@ -82,12 +82,14 @@
                     </td>
                     <td>
                         <div class="input-group">
-                            <button class="btn btn-outline-secondary invisible" type="button" onclick="change_disabled(this.form)" form="<?php echo $id_form ?>" name="btn_cancel">
+                            <button class="btn btn-outline-secondary d-none" type="button" onclick="change_disabled(this.form)" form="<?php echo $id_form ?>" name="btn_cancel">
                                 <i class="bi bi-x-lg"></i>
                             </button>
-                            <button class="btn btn-outline-secondary invisible" type="submit" form="<?php echo $id_form ?>" name="btn_save"> 
+                            <button class="btn btn-outline-secondary d-none" type="submit" form="<?php echo $id_form ?>" name="btn_save"> 
                                 <i class="bi bi-floppy"></i> 
                             </button>
+                        </div>
+                        <div class="input-group">
                             <button class="btn btn-outline-secondary" type="button" onclick="change_disabled(this.form)" form="<?php echo $id_form ?>" name="btn_change"> 
                                 <i class="bi bi-pencil-square"></i>
                             </button>

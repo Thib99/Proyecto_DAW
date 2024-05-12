@@ -28,16 +28,12 @@
         $estados_name = obtenerEstadoPedido();
     ?>
 
-    <div>
-        <div class="sticky-md-top">
-
-            <div class="row">
-                <div class="col-md-10">
-                    
-            <nav class="navbar navbar-expand-md py-3 color-grey-custom">
-
-                    <!-- <div class="shadow p-3 mb-5 bg-white rounded"> -->
-
+  
+        
+        <div class="containe">
+            <div class="row justify-content-center">
+                <div class="col-md-9 m-2">
+            
                     <?php
                         $search = filter_input(INPUT_GET, 'search');
                         $tipo = filter_input(INPUT_GET, 'tipo');
@@ -46,50 +42,58 @@
                         
                         <form action="pedidos.php" method="GET">
                             
-                            <div class="input-group mb-3">
-                                <select id="tipo" class="form-control" name="tipo">
+                            <div class="input-group">
+                                <select id="tipo" class="form-control" name="tipo" onchange="changePlaceholder();">
                                     <?php 
-                                        $all_options = array('perso<i class="bi bi-person"></i>', 'date<i class="bi bi-calendar-date"></i>', 'produc<i class="bi bi-geo-alt"></i>') ;
+                                        $all_options = array('Usuario', 'Fecha', 'Producto') ;
                                         foreach ($all_options as $key => $value){
                                             if (isset($tipo) && $tipo == $key)
-                                                echo "<option value='$key' selected>$value</option>";
-                                            else
-                                                echo "<option value='$key'>$value</option>";
-                                        }
-                                    ?>                                    
+                                            echo "<option value='$key' selected>$value</option>";
+                                        else
+                                        echo "<option value='$key'>$value</option>";
+                                }
+                                ?>                                    
                                 </select>
                                 <!-- <span class="input-group-text" id="basic-addon1"><i class="bi bi-box-seam"></i></span> -->
                                 <input type="text" class="form-control" placeholder="Pedido" aria-label="Pedido" name="search"
-                                    value="<?php echo $search; ?>"
+                                value="<?php echo $search; ?>"
                                 aria-describedby="basic-addon1">
+                                <script>
+                                    // change the placeholder of the input search based on the selected option
+                                    function changePlaceholder(){
+                                        var select = document.getElementById('tipo');
+                                        var search = document.getElementsByName('search')[0];
+                                        const placeholders = ['"nombre" o "apellido"', 'dd/mm/yyy', 'nombre del producto'];
+                                        search.placeholder = placeholders[select.selectedIndex];
+                                    }
+                                    changePlaceholder();
+                                    </script>
                                 <span class="input-group-text" id="basic-addon1">Estado</span>
                                 <select id="estado" name="estado">
                                     <option value='0'>Todos</option>
                                     <?php 
                                         foreach ($estados_name as $key => $value){
                                             if (isset($estado) && $estado == $key)
-                                                echo "<option value='$key' selected>$value</option>";
-                                            else
-                                                echo "<option value='$key'>$value</option>";
-                                            
-                                        }
-                                    ?>
+                                            echo "<option value='$key' selected>$value</option>";
+                                        else
+                                        echo "<option value='$key'>$value</option>";
+                                    
+                                }
+                                ?>
                                 </select>
                                 
                                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i
-                                    class="bi bi-search"></i>
-                                </button>
-                            </div>
-                            
-                        </form>
+                                class="bi bi-search"></i>
+                            </button>
+                        </div>
                         
-                        <!-- </div> -->
-                        
-                    </nav>
+                    </form>
+                    
                 </div>
-                </div>
+            </div>
         </div>
-    </div>
+                    
+                
     <div class="m-2">
         <?php 
             if (isset($_GET['search']) && isset($_GET['tipo']) && isset($_GET['estado'])){
@@ -134,7 +138,12 @@
                 <?php
                     echo "<td>$pedido[0]</td>";
                     echo "<td>$pedido[1] $pedido[2]</td>";
-                    echo "<td>$pedido[3]</td>";
+
+                    $datetime = new DateTime($pedido[3]);
+                    setlocale(LC_TIME,"es_ES");                        
+                    $formattedDate = ucfirst(date('l j \d\e F Y \a \l\a\s H.i', date_timestamp_get($datetime)));
+                     // $formattedDate = ucfirst($datetime->format('l j \d\e F Y \a\l H:i'));
+                    echo "<td>$formattedDate</td>";
                     echo "<td>$nbr_productos</td>";
                     echo "<td>$pedido[4]</td>";
                     echo "<td>$pedido[5]</td>";

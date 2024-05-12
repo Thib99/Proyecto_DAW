@@ -16,13 +16,13 @@ function change_disabled(form) {
         if (inputs[i].nodeName == 'BUTTON') {
             
             
-            if (inputs[i].classList.contains('invisible')) {
-                inputs[i].classList.remove('invisible');
+            if (inputs[i].classList.contains('d-none')) {
+                inputs[i].classList.remove('d-none');
                 inputs[i].disabled = false;
             }
             else {
                 inputs[i].disabled = true;
-                inputs[i].classList.add('invisible');
+                inputs[i].classList.add('d-none');
             }
         }
         else if(inputs[i].nodeName == 'INPUT' && inputs[i].type == 'file'){

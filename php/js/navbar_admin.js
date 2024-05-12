@@ -52,11 +52,6 @@ function createHeader() {
                                     <i class="bi bi-chat-text"></i>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="cuidado.php" name="nav_link_item" >Dinero
-                                    <i class="bi bi-currency-euro"></i>
-                                </a>
-                            </li>
                         </ul>
 
 
@@ -90,7 +85,7 @@ function changeTabsFocus() {
     var filename = url.substring(url.lastIndexOf('/') + 1);
 
 
-    const tab_names= ["productos.php", "usuarios.php", "pedidos.php", "consultas.php", "cuidado.php", "conexion.php"] ;
+    const tab_names= ["productos.php", "usuarios.php", "pedidos.php", "consultas.php", "conexion.php"] ;
 
 
     var tabs  = document.getElementById("navbar_tabs").querySelectorAll("a[name='nav_link_item']");

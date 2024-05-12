@@ -6,9 +6,9 @@
     //     if ($_SESSION['usuario_id'] == null) {
     //         $back_to = $_SERVER['REQUEST_URI'];
     //         if ($back_to != '/conexion.php') {
-    //             header('Location: ../conexion.php?url=' . $back_to);
+    //             header('Location: conexion.php?url=' . $back_to);
     //         }else {
-    //             header('Location: ../conexion.php');
+    //             header('Location: conexion.php');
     //         }
     //    }
     }
