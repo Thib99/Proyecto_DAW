@@ -6,7 +6,7 @@ WORKDIR /build
 RUN mvn clean compile package
 
 # copy all the output files to the tomcat server
-FROM tomcat:10.0
+FROM tomcat:10.1.19
 COPY --from=builder /build/target /tom/target
 WORKDIR /tom/target
 RUN cp servlets.war /usr/local/tomcat/webapps/
