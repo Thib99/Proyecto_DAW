@@ -18,6 +18,13 @@ Por Thibault Poux
     **Usuario:** juan.garcia@digi.es
     **Contraseña:** MisContrasena2
 
+### Usuario admin
+
+* Pablo Messi :
+
+    **Usuario:** admin@website.fr   
+    **Contraseña:** Azerty1
+
 ### Información:
 
 * **Base de datos:**
@@ -27,6 +34,16 @@ Por Thibault Poux
     Para iniciar el proyecto con una sola línea de comando, ejecute la siguiente línea en la raíz del proyecto:
 
         docker-compose up
+
+    URL :
+    * El Servelts tiene el url :
+
+        http://localhost:8080/servlets/
+    * El php tiene el url :
+
+        http://localhost:3001/
+
+        
 
     Información:
     * "docker" y "docker-compose" deben estar instalados.
