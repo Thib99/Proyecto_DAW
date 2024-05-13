@@ -6,6 +6,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        
+        
 
     }else{
         $_SESSION['notif_msg'] = "Sólo se aceptan solicitudes POST";

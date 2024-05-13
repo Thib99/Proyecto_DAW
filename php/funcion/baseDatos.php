@@ -1,6 +1,16 @@
 <?php
 function conectar() {
-    $bbdd = mysqli_connect("localhost","root","root","daw");
+    $hostname = "localhost";
+    $username = "root";
+    $password = "root";
+    $database = "daw";
+
+    // put correct host if it run from a docker 
+    if (getenv('DB_HOST') != null) {
+        $hostname = getenv('DB_HOST');
+    }
+
+    $bbdd = mysqli_connect($hostname, $username, $password, $database);
     
     if (mysqli_connect_error()) {
        printf("Error conectando a la base de datos: %s\n",mysqli_connect_error());
