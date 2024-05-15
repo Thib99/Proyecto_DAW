@@ -251,4 +251,62 @@ function obtenerPedidosFiltrados($search, $tipo, $estado){
 
 }
 
+function anadirProducto($nombre, $cantidad, $precio, $categoria, $img1, $img2, $img3){
+    $bbdd = conectar();
+    // first create an empty product and save the id of the product
+    $consulta = mysqli_prepare($bbdd, "INSERT INTO productos (descripcion, existencias, precio, categoria) VALUES (?, ?, ?, ?)");
+    mysqli_stmt_bind_param($consulta, "sisi", $nombre, $cantidad, $precio, $categoria);
+    mysqli_stmt_execute($consulta);
+    $id_producto = mysqli_insert_id($bbdd);
+    mysqli_stmt_close($consulta);
+    
+    // then add the images to the product
+    $consulta = mysqli_prepare($bbdd, "UPDATE productos SET imagen1 = ?, imagen2 = ?, imagen3 = ? WHERE codigo = ?");
+    if ($img1 != null) $img1 = $id_producto."/1.".$img1;
+    if ($img2 != null) $img2 = $id_producto."/2.".$img2;
+    if ($img3 != null) $img3 = $id_producto."/3.".$img3;
+
+    mysqli_stmt_bind_param($consulta, "sssi", $img1, $img2, $img3, $id_producto);
+    mysqli_stmt_execute($consulta);
+    mysqli_stmt_close($consulta);   
+
+    desconectar($bbdd);
+    return $id_producto;
+}
+
+function cambiarProducto($id, $nombre, $cantidad, $precio, $categoria, $img1, $img2, $img3){
+    $bbdd = conectar();
+    // first update the product
+    $consulta = mysqli_prepare($bbdd, "UPDATE productos SET descripcion = ?, existencias = ?, precio = ?, categoria = ? WHERE codigo = ?");
+    mysqli_stmt_bind_param($consulta, "siiii", $nombre, $cantidad, $precio, $categoria, $id);
+    mysqli_stmt_execute($consulta);
+    mysqli_stmt_close($consulta);
+
+    // if the image is not null, update the image
+    if ($img1 != null){
+        $consulta = mysqli_prepare($bbdd, "UPDATE productos SET imagen1 = ? WHERE codigo = ?");
+        $img1 = $id."/1.".$img1;
+        mysqli_stmt_bind_param($consulta, "si", $img1, $id);
+        mysqli_stmt_execute($consulta);
+        mysqli_stmt_close($consulta);
+    }
+    if ($img2 != null){
+        $consulta = mysqli_prepare($bbdd, "UPDATE productos SET imagen2 = ? WHERE codigo = ?");
+        $img2 = $id."/2.".$img2;
+        mysqli_stmt_bind_param($consulta, "si", $img2, $id);
+        mysqli_stmt_execute($consulta);
+        mysqli_stmt_close($consulta);
+    }
+    if ($img3 != null){
+        $consulta = mysqli_prepare($bbdd, "UPDATE productos SET imagen3 = ? WHERE codigo = ?");
+        $img3 = $id."/3.".$img3;
+        mysqli_stmt_bind_param($consulta, "si", $img3, $id);
+        mysqli_stmt_execute($consulta);
+        mysqli_stmt_close($consulta);
+    }
+
+    desconectar($bbdd);
+    return 1;
+}
+
 ?>

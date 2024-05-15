@@ -29,6 +29,7 @@ function change_disabled(form) {
             let img  = inputs[i].nextElementSibling;
             if (disabled) {
                 img.src = form_datos[id][i-1];
+                inputs[i].value = '';
             }else {
                 input_value.push(img.src);
             }

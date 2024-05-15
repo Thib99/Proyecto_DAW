@@ -56,7 +56,7 @@ CREATE TABLE `com_contacto` (
   `comentario` varchar(1000) NOT NULL,
   `fecha` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,8 @@ CREATE TABLE `com_contacto` (
 
 /*!40000 ALTER TABLE `com_contacto` DISABLE KEYS */;
 INSERT INTO `com_contacto` VALUES
-(2,'Pierre','Dupond','my@digit.es','La tienda es genial !!!!!','2024-04-27 20:32:48');
+(2,'Pierre','Dupond','my@digit.es','La tienda es genial !!!!!','2024-04-27 20:32:48'),
+(3,'Paul','Tortue','dg@world.com','Que bien !','2024-05-09 19:57:42');
 /*!40000 ALTER TABLE `com_contacto` ENABLE KEYS */;
 
 --
@@ -110,7 +111,9 @@ INSERT INTO `detalle` VALUES
 (5,5,1,50.00),
 (5,6,1,60.00),
 (5,7,1,70.00),
-(5,8,1,80.00);
+(5,8,1,80.00),
+(6,1,3,10.00),
+(6,3,2,30.00);
 /*!40000 ALTER TABLE `detalle` ENABLE KEYS */;
 
 --
@@ -157,7 +160,7 @@ CREATE TABLE `pedidos` (
   KEY `enestado` (`estado`),
   CONSTRAINT `enestado` FOREIGN KEY (`estado`) REFERENCES `estados` (`codigo`),
   CONSTRAINT `pedidopor` FOREIGN KEY (`persona`) REFERENCES `usuarios` (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,10 +170,11 @@ CREATE TABLE `pedidos` (
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
 INSERT INTO `pedidos` VALUES
 (1,1,'2024-04-27 17:59:50',970.00,2),
-(2,1,'2024-04-27 18:00:33',290.00,1),
+(2,1,'2024-04-27 18:00:33',290.00,4),
 (3,2,'2024-04-27 18:03:13',580.00,3),
 (4,2,'2024-04-27 18:03:43',10.00,4),
-(5,2,'2024-04-27 18:03:55',260.00,1);
+(5,2,'2024-04-27 18:03:55',260.00,3),
+(6,1,'2024-05-08 11:05:18',90.00,4);
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 
 --
@@ -188,10 +192,10 @@ CREATE TABLE `productos` (
   `imagen1` varchar(255) DEFAULT NULL,
   `imagen2` varchar(255) DEFAULT NULL,
   `imagen3` varchar(255) DEFAULT NULL,
-  `categoria` int(11) unsigned DEFAULT 4,
+  `categoria` int(11) unsigned DEFAULT 1,
   PRIMARY KEY (`codigo`),
   KEY `categoria` (`categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,17 +204,17 @@ CREATE TABLE `productos` (
 
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
 INSERT INTO `productos` VALUES
-(1,'Dinosaurio',10.00,7,'1/1.jpg','1/2.jpg','1/3.jpg',4),
+(1,'Dinosaurio',10.00,16,'1/1.jpg','1/2.jpg','1/3.jpg',4),
 (2,'Oso',20.00,11,'2/1.jpg','2/2.jpg','2/3.jpg',4),
-(3,'Pollito',30.00,2,'3/1.jpg','3/2.jpg','3/3.jpg',4),
+(3,'Pollito',30.00,6,'3/1.jpg','3/2.jpg','3/3.jpg',4),
 (4,'La boca',40.00,0,'4/1.jpg','4/2.jpg','4/3.jpg',1),
 (5,'Jean-Mi',50.00,11,'5/1.jpg','5/2.jpg','5/3.jpg',1),
 (6,'Vidrio',60.00,98,'6/1.jpg','6/2.jpg','6/3.jpg',1),
 (7,'Billar',70.00,42,'7/1.jpg','7/2.jpg','7/3.jpg',1),
-(8,'Maya',80.00,30,'8/1.jpg','8/2.jpg','8/3.jpg',1),
+(8,'Maya',80.00,31,'8/1.jpg','8/2.jpg','8/3.jpg',1),
 (9,'Lucas',90.00,97,'9/1.jpg','9/2.jpg','9/3.jpg',3),
-(10,'Rachid',100.00,18,'10/1.jpg','10/2.jpg','10/3.jpg',2),
-(11,'Gertrude',110.00,33,'11/1.jpg','11/2.jpg','11/3.jpg',2),
+(10,'Rachid',100.00,19,'10/1.jpg','10/2.jpg','10/3.jpg',2),
+(11,'Gertrude',110.00,34,'11/1.jpg','11/2.jpg','11/3.jpg',2),
 (12,'Casino',120.00,23,'12/1.jpg','12/2.jpg','12/3.jpg',3),
 (13,'Thé',130.00,16,'13/1.jpg','13/2.jpg','13/3.jpg',2),
 (14,'Basurita',140.00,22,'14/1.jpg','14/2.jpg','14/3.jpg',3),
@@ -272,7 +276,7 @@ CREATE TABLE `usuarios` (
   `correo` varchar(255) NOT NULL,
   PRIMARY KEY (`codigo`),
   UNIQUE KEY `correo` (`correo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,8 +285,9 @@ CREATE TABLE `usuarios` (
 
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` VALUES
-(1,1,0,'21417d8d58e022f87bd849fe4aefa423125a99f39f21c2646fc31f25a3b019ed','Pierre','Dupond','25 av Champs Élysée','Paris','France','75004','123456789','1994-06-08','pierre.dupond@gmail.com'),
-(2,1,0,'6b22e1ecc56d82aab6c1feaa02d0dd169c1e4689e9a2cf9a9af60db4ca46d32d','Juan','García','21 calle Maria','Madrid','España','28001','999999999','2001-02-14','juan.garcia@digi.es');
+(1,1,0,'21417d8d58e022f87bd849fe4aefa423125a99f39f21c2646fc31f25a3b019ed','Pierre','Dupond','25 av Champs-Élysées','Paris','France','75004','123456789','1994-06-08','pierre.dupond@gmail.com'),
+(2,1,0,'6b22e1ecc56d82aab6c1feaa02d0dd169c1e4689e9a2cf9a9af60db4ca46d32d','Juan','García','21 calle Maria','Madrid','España','99999','999999999','2004-10-17','juan.garcia@digi.es'),
+(3,1,1,'21417d8d58e022f87bd849fe4aefa423125a99f39f21c2646fc31f25a3b019ed','Pablo','Messi','1 av Admin','Valencia','España','46001','572831490','1996-02-12','admin@website.fr');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 
 --
@@ -298,4 +303,4 @@ INSERT INTO `usuarios` VALUES
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-27 22:33:04
+-- Dump completed on 2024-05-15 19:15:19

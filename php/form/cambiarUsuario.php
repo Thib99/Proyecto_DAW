@@ -2,6 +2,7 @@
     require_once '../funcion/baseDatos.php';
     require_once '../funcion/function_shared.php';
 
+    check_if_connected();   
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $id = filter_input(INPUT_POST, 'codigo');

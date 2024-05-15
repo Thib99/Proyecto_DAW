@@ -14,6 +14,7 @@
     <title>Productos</title>
   
     <link rel="stylesheet" href="css/productos.css">
+    <script src="js/alert.js"></script>
     <script src="js/change_user_data.js"></script>
     <script src="js/upload_img.js"></script>
     
@@ -48,7 +49,7 @@
                 ?>
                 <tr >
                     <td>
-                            <form action="form/anadirProducto.php" method="POST" id="form-add-product" ></form>
+                            <form action="form/anadirProducto.php" method="POST" id="form-add-product" enctype="multipart/form-data" ></form>
                             <div class="image-container" onclick="selectImage(this)">
                                 <input type="file" class="input-invisible" required form="form-add-product" name="img1" >
                                 <img class="uploaded-image" src="img/placeholder-img.jpg" alt="Uploaded Image">
@@ -58,14 +59,14 @@
                         </td>
                         <td>
                             <div class="image-container" onclick="selectImage(this)">
-                                <input type="file" class="input-invisible" form="form-add-product" name="img2">
+                                <input type="file" class="input-invisible" form="form-add-product" name="img2" required >
                                 <img class="uploaded-image" src="img/placeholder-img.jpg" alt="Uploaded Image">
                             </div>
                         
                         </td>
                         <td>
                             <div class="image-container" onclick="selectImage(this)">
-                                <input type="file" class="input-invisible" form="form-add-product" name="img3">
+                                <input type="file" class="input-invisible" form="form-add-product" name="img3" required>
                                 <img class="uploaded-image" src="img/placeholder-img.jpg" alt="Uploaded Image">
                             </div>
                         
@@ -98,6 +99,7 @@
                 <?php
                     function enlaceImagen($imagen){
                         $init_path = "img/productos/" ;
+                        // $init_path = "../servlets/target/servlets/img/productos/" ;
                         if ($imagen == null) {
                             echo "img/placeholder-img.jpg";
                         } else {
@@ -112,7 +114,7 @@
                 ?>
                 <tr>
                     <td>
-                        <form action="form/anadirProducto.php" method="POST" id="<?php echo $id_form ?>"></form>
+                        <form action="form/cambiarProducto.php" method="POST" id="<?php echo $id_form ?>" enctype="multipart/form-data" ></form>
 
                             <input type="hidden" name="codigo" form="<?php echo $id_form ?>" value="<?php echo $fila[0] ?>">
                             <div class="image-container" onclick="selectImage(this)">
