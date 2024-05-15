@@ -1,5 +1,5 @@
-<!-- check if user connected -->
 <?php
+    // check if user connected
     require_once 'funcion/function_shared.php';
     check_if_connected();
 ?>
