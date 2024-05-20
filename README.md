@@ -47,9 +47,9 @@ Por Thibault Poux
 
     Información:
     * "docker" y "docker-compose" deben estar instalados.
-    * Esta comando solo funciona en Linux o WSL.
+    * Esta comando solo funciona en Linux o WSL (con Docker Desktop Windows)
 
-### Funcionalidades:
+### Funcionalidades del servlets
 
 * **Productos:**
     * Están organizados por categoría.
