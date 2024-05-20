@@ -18,3 +18,7 @@ img {
     height: auto;
 }
 
+select option {
+    background-color: white !important;
+    color: black !important;
+}

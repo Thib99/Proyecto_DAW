@@ -40,7 +40,7 @@
                 while ($fila = mysqli_fetch_row($resultados)) {
                     echo "<tr>";
                     echo "<td>$fila[1] $fila[2]</td>";
-                    echo "<td>".$fila[3]."</td>";
+                    echo "<td><a href='mailto:$fila[3]'>$fila[3]</a></td>";
                     echo "<td>".$fila[4]."</td>";
                     echo "<td>".$fila[5]."</td>";
                     echo "</tr>" ;

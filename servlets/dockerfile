@@ -1,7 +1,8 @@
 # build the maven project
 FROM maven:3-jdk-11 as builder
 RUN mkdir -p /build
-COPY . /build
+COPY pom.xml /build/
+COPY src /build/src
 WORKDIR /build
 RUN mvn clean compile package
 

@@ -5,7 +5,7 @@ services:
     image: mariadb:latest
     volumes:
       - /opt/test:/var/lib/mariadb
-      - ./struct+data.sql:/docker-entrypoint-initdb.d/install.sql  # Chemin vers votre fichier SQL
+      - ./struct+data.sql:/docker-entrypoint-initdb.d/install.sql 
     environment:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: daw

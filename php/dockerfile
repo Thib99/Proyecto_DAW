@@ -12,6 +12,8 @@ RUN apt-get update && \
 # Copy your PHP application code into the container
 COPY . .
 
+# allow adding file by upload to the container
+RUN chmod 006 -R /var/www/html/img/productos
 
 # Expose the port Apache listens on
 EXPOSE 80

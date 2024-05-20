@@ -287,7 +287,7 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` VALUES
 (1,1,0,'21417d8d58e022f87bd849fe4aefa423125a99f39f21c2646fc31f25a3b019ed','Pierre','Dupond','25 av Champs-Élysées','Paris','France','75004','123456789','1994-06-08','pierre.dupond@gmail.com'),
 (2,1,0,'6b22e1ecc56d82aab6c1feaa02d0dd169c1e4689e9a2cf9a9af60db4ca46d32d','Juan','García','21 calle Maria','Madrid','España','99999','999999999','2004-10-17','juan.garcia@digi.es'),
-(3,1,1,'21417d8d58e022f87bd849fe4aefa423125a99f39f21c2646fc31f25a3b019ed','Pablo','Messi','1 av Admin','Valencia','España','46001','572831490','1996-02-12','admin@website.fr');
+(3,1,1,'21417d8d58e022f87bd849fe4aefa423125a99f39f21c2646fc31f25a3b019ed','Pablo','Messi','1 av Admin','Valencia','España','46001','572831490','1996-02-12','admin@website.es');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 
 --
