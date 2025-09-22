@@ -13,7 +13,7 @@ RUN apt-get update && \
 COPY . .
 
 # allow adding file by upload to the container
-RUN chmod 006 -R /var/www/html/img/productos
+RUN chmod +r /var/www/html/img/productos
 
 # Expose the port Apache listens on
 EXPOSE 80
